@@ -17,7 +17,9 @@ namespace nts
     virtual nts::Tristate Compute(size_t pin_num_this = 1);
 
   private:
-
+    Component4001() = delete;
+    Component4001(Component4001 const& cmp) = delete;
+    Component4001 &operator=(Component4001 const& cmp) = delete;
     nts::Tristate nor_gate(nts::Tristate in1, nts::Tristate in2);
   };
 }
