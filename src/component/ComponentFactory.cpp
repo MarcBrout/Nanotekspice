@@ -23,7 +23,7 @@ std::map<std::string, nts::ComponentFactory::createCompPtr> nts::ComponentFactor
   std::map<std::string, nts::ComponentFactory::createCompPtr> map {
       {"4001", &create4001}
   };
-
+  return (map);
 }
 
 nts::IComponent *nts::ComponentFactory::create4001(std::string const &value) const
