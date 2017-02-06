@@ -18,6 +18,8 @@ namespace nts
         COMPONENT4071,
         COMPONENT4081,
         COMPONENT4008,
+        COMPONENT4013,
+        COMPONENT4030,
         END_COMPONENT
     };
 
@@ -26,7 +28,9 @@ namespace nts
             "4011",
             "4071",
             "4081",
-            "4008"
+            "4008",
+            "4013",
+            "4030"
     };
 
     typedef struct s_link Link;
@@ -73,8 +77,8 @@ namespace nts
         void addLink(std::vector<nts::Link> &links, size_t me, IComponent *cmp, size_t it);
         nts::Tristate getPinLinkedInput(size_t pin);
     };
-
-    std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 }
+
+std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 
 #endif //CPP_NANOTEKSPICE_COMPONENTS_HH

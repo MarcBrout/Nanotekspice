@@ -7,10 +7,15 @@
 #include "Component4011.h"
 #include "Component4071.hh"
 #include "Component4081.hh"
+#include "Component4013.hh"
+#include "Component4030.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
-    std::map<std::string, nts::ComponentFactory::createCompPtr>::const_iterator cit;
+    static std::map<const std::string, nts::ComponentFactory::createCompPtr> cmpBuilder = createMap();
+    std::map<const std::string, nts::ComponentFactory::createCompPtr>::const_iterator cit;
+    nts::ComponentFactory::createCompPtr ptr;
+    BluePrint bluePrint;
 
     if (cmpBuilder.empty())
         cmpBuilder = createMap();
@@ -18,36 +23,49 @@ nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type,
     cit = cmpBuilder.find(type);
     if (cit == cmpBuilder.end())
         return (NULL);
-    return (this->*cmpBuilder[type](value));
+    ptr = cit->second;
+    return (bluePrint.*ptr)(value);
 }
 
-std::map<std::string, nts::ComponentFactory::createCompPtr> nts::ComponentFactory::createMap() const
+std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::ComponentFactory::createMap()
 {
-    std::map<std::string, nts::ComponentFactory::createCompPtr> map {
-            {"4001", &create4001},
-            {"4011", &create4011},
-            {"4071", &create4071},
-            {"4081", &create4081}
-    };
+    std::map<const std::string, nts::ComponentFactory::createCompPtr> map;
+
+    map["4001"] = &nts::BluePrint::create4001;
+    map["4011"] = &nts::BluePrint::create4011;
+    map["4071"] = &nts::BluePrint::create4071;
+    map["4081"] = &nts::BluePrint::create4081;
+    map["4013"] = &nts::BluePrint::create4013;
+    map["4030"] = &nts::BluePrint::create4030;
     return (map);
 }
 
-nts::IComponent *nts::ComponentFactory::create4001(std::string const &value) const
+nts::IComponent *nts::BluePrint::create4001(std::string const &value)
 {
     return (new Component4001(value));
 }
 
-nts::IComponent *nts::ComponentFactory::create4011(std::string const &value) const
+nts::IComponent *nts::BluePrint::create4011(std::string const &value)
 {
     return (new Component4011(value));
 }
 
-nts::IComponent *nts::ComponentFactory::create4071(std::string const &value) const
+nts::IComponent *nts::BluePrint::create4071(std::string const &value)
 {
     return (new Component4071(value));
 }
 
-nts::IComponent *nts::ComponentFactory::create4081(std::string const &value) const
+nts::IComponent *nts::BluePrint::create4081(std::string const &value)
 {
     return (new Component4081(value));
+}
+
+nts::IComponent *nts::BluePrint::create4013(std::string const &value)
+{
+    return (new Component4013(value));
+}
+
+nts::IComponent *nts::BluePrint::create4030(std::string const &value)
+{
+    return (new Component4030(value));
 }
