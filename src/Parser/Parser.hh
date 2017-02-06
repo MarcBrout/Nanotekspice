@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include "IParser.hh"
+#include "IComponent.hh"
 
 namespace nts
 {
@@ -19,6 +20,7 @@ namespace nts
     private:
         nts::t_ast_node *tree;
         std::vector<std::string> lex;
+        std::vector<nts::IComponent *> factory;
         std::string nameComponent;
         std::string nameType;
         std::string linkName;
@@ -44,6 +46,8 @@ namespace nts
         void trues();
         void falses();
         void componentName();
+
+        void linkToNode(std::string &it, const std::string &c);
 
         void link();
 
