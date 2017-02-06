@@ -6,8 +6,7 @@
 #include <algorithm>
 #include "Parser.hh"
 #include "ComponentFactory.hh"
-#include "../component/ComponentFactory.hh"
-#include "../component/Components.hh"
+#include "Component.hh"
 
 static std::array<std::string, 14> componentNameVec =
         {
@@ -142,6 +141,8 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 }
@@ -149,7 +150,6 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
 void nts::Parser::createNode(std::string &it)
 {
     std::map<std::string, nts::FuncPtr>::iterator itm;
-    std::array<std::string, 14>::iterator itv;
     std::string c;
 
     if (myLexMap.empty())
@@ -163,7 +163,7 @@ void nts::Parser::createNode(std::string &it)
         (this->*itm->second)();
     else if ((itm = std::find(myLexMap.begin(), myLexMap.end(), c = it.substr(0, it.find(' ')))) != myLexMap.end())
         (this->*itm->second)();
-    else if ((itv = std::find(componentNameVec.begin(), componentNameVec.end(), c)) != componentNameVec.end())
+    else if (std::find(componentNameVec.begin(), componentNameVec.end(), c) != componentNameVec.end())
     {
         nameType = c;
         nameComponent = it.replace(it.begin(), it.end(), " ", "").substr(c.length());
