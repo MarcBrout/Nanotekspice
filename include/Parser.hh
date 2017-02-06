@@ -26,7 +26,7 @@ namespace nts
         std::string linkName;
         std::string linkValue;
         std::string commentString;
-        static std::map<std::string, nts::FuncPtr> myLexMap;
+       // static std::map<std::string, nts::FuncPtr> myLexMap;
 
         std::map<std::string, nts::FuncPtr> create_map();
     protected:
@@ -54,6 +54,7 @@ namespace nts
         void link_end();
 
         void comment();
+
     public:
         Parser();
 

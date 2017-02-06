@@ -28,13 +28,13 @@ namespace nts
         std::string linkName;
         std::string linkValue;
         std::string commentString;
-        static std::map<std::string, nts::FuncPtr> myLexMap;
+        //static std::map<std::string, nts::FuncPtr> myLexMap;
 
         std::map<std::string, nts::FuncPtr> create_map();
     protected:
-        void createNode(std::string &it);
+        void createNode(std::string it);
 
-        void section(std::string sect);
+        void section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap);
         void chipsets();
         void links();
 
@@ -49,7 +49,7 @@ namespace nts
         void falses();
         void componentName();
 
-        void linkToNode(std::string &it, const std::string &c);
+        void linkToNode(std::string &it, const std::string &c, std::map<std::string, nts::FuncPtr> &myLexMap);
 
         void link();
 
