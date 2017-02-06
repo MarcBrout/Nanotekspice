@@ -5,8 +5,9 @@
 #include <map>
 #include <algorithm>
 #include "Parser.hh"
+#include "ComponentFactory.hh"
 
-static std::vector<std::string> componentNameVec =
+static std::array<std::string, 14> componentNameVec =
         {
                 "4001",
                 "4008",
@@ -31,25 +32,64 @@ void nts::Parser::feed(std::string const &input)
 
 void nts::Parser::parseTree(nts::t_ast_node &root)
 {
+    bool is_chips(false);
+    bool is_links(false);
+    std::array<std::string, 5> nameCompo = {
+            "input",
+            "output",
+            "clock",
+            "true",
+            "false"
+    };
+    std::string tmp;
+    std::vector<std::string> componentVec;
+    ComponentFactory fact;
+
+    for (int i = 0; i < root.children->size(); i++)
+    {
+        switch (root.children[0][i]->type)
+        {
+            case nts::ASTNodeType::SECTION:
+                if (tmp == "chipsets")
+                {
+                    if (!is_chips)
+                        is_chips = true;
+                    else
+                        throw std::logic_error("File corrupted: \"" + tmp + "\" is already used");
+                }
+                else if (tmp == "links")
+                {
+                    if (!is_chips)
+                        throw std::logic_error("File corrupted: declared " + tmp + "before a chipsets");
+                    else
+                        is_links = true;
+                }
+                break;
+            case nts::ASTNodeType::COMPONENT:
+                if ((std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->lexeme) == nameCompo.end() &&
+                        std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][1]->lexeme) == componentNameVec.end()) ||
+                        (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->value) != nameCompo.end() ||
+                         std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end()))
+                    throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
+                else
+                {
+                    componentVec.push_back(root.children[0][i]->value);
+                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                }
+                break;
+        }
+    }
 
 }
-
-/*typedef struct s_ast_node
-{
-    s_ast_node(std::vector<struct s_ast_node *> *children) : children(children) {}
-    std::string lexeme;
-    ASTNodeType type;
-    std::string value;
-    std::vector<struct s_ast_node *> *children;
-} t_ast_node;*/
 
 void nts::Parser::createNode(std::string &it)
 {
     std::map<std::string, nts::FuncPtr>::iterator itm;
-    std::vector<std::string>::iterator itv;
+    std::array<std::string, 14>::iterator itv;
     std::string c;
-    myLexMap = create_map();
 
+    if (myLexMap.empty())
+        myLexMap = create_map();
     if (it.find_last_of('#') != 0)
         it = it.substr(0, it.find_last_of('#'));
     c = it[0];
@@ -66,22 +106,23 @@ void nts::Parser::createNode(std::string &it)
         (this->*myLexMap["name"])();
     }
     else if (c.find(':'))
-    {
-        linkName = c.substr(0, c.find(':'));
-        linkValue = c.substr(c.find(":") + 1, c.find(' '));
-        (this->*myLexMap["link"])();
-        linkName = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(0, it.find(':'));
-        linkValue = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(it.find(':') + 1);
-        (this->*myLexMap["linkEnd"]);
-    }
+        linkToNode(it, c);
+}
+
+void nts::Parser::linkToNode(std::string &it, const std::string &c)
+{
+    this->linkName = c.substr(0, c.find(':'));
+    this->linkValue = c.substr(c.find(":") + 1, c.find(' '));
+    (this->*nts::Parser::myLexMap["link"])();
+    this->linkName = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(0, it.find(':'));
+    this->linkValue = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(it.find(':') + 1);
+    (this->*nts::Parser::myLexMap["linkEnd"]);
 }
 
 nts::t_ast_node *nts::Parser::createTree()
 {
     for (std::vector<std::string>::iterator it = lex.begin(); it != lex.end(); it++)
-    {
         createNode(*it);
-    }
     return tree;
 }
 
