@@ -77,8 +77,8 @@ namespace nts
         void addLink(std::vector<nts::Link> &links, size_t me, IComponent *cmp, size_t it);
         nts::Tristate getPinLinkedInput(size_t pin);
     };
-
-    std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 }
+
+std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 
 #endif //CPP_NANOTEKSPICE_COMPONENTS_HH

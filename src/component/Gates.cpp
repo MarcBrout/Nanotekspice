@@ -4,35 +4,35 @@
 
 #include "Gates.hh"
 
-nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2) const
+nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2)
 {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return ((!(in1 == TRUE && in2 == TRUE)) ? TRUE : FALSE);
 }
 
-nts::Tristate nts::Gates::nor(nts::Tristate in1, nts::Tristate in2) const
+nts::Tristate nts::Gates::nor(nts::Tristate in1, nts::Tristate in2)
 {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return ((!(in1 == TRUE || in2 == TRUE)) ? TRUE : FALSE);
 }
 
-nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2) const
+nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2)
 {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return ((in1 == TRUE && in2 == TRUE) ? TRUE : FALSE);
 }
 
-nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2) const
+nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
 {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return ((in1 == TRUE || in2 == TRUE) ? TRUE : FALSE);
 }
 
-nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& ret) const
+nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& ret)
 {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
@@ -47,7 +47,7 @@ nts::Tristate nts::Gates::flipflop(nts::Tristate clock,
                                    nts::Tristate set,
                                    nts::Tristate& q,
                                    nts::Tristate& nq,
-                                   bool which) const
+                                   bool which)
 {
     if (clock == UNDEFINED || reset == UNDEFINED || set == UNDEFINED ||
         (clock == TRUE && data == UNDEFINED)) {
@@ -60,7 +60,7 @@ nts::Tristate nts::Gates::flipflop(nts::Tristate clock,
     {
         if (clock == TRUE)
             q = data;
-        nq = -q;
+        nq = (q == TRUE ? FALSE : TRUE);
         return (which ? q : nq);
     }
 
@@ -83,7 +83,7 @@ nts::Tristate nts::Gates::flipflop(nts::Tristate clock,
     return (which ? q : nq);
 }
 
-nts::Tristate nts::Gates::_xor(nts::Tristate in1, nts::Tristate in2) const {
+nts::Tristate nts::Gates::_xor(nts::Tristate in1, nts::Tristate in2) {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return (in1 != in2 ? TRUE : FALSE);

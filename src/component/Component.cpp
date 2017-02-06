@@ -36,7 +36,7 @@ bool nts::AComponent::setPin(size_t pin, nts::Tristate value)
 
 std::ostream& operator<<(std::ostream &out, nts::Tristate state)
 {
-  out << (state == UNDEFINED ? "undefined" : state == TRUE ? "true" : "false");
+  out << (state == nts::UNDEFINED ? "undefined" : state == nts::TRUE ? "true" : "false");
   return (out);
 }
 

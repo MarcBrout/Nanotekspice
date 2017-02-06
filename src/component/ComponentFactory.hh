@@ -11,21 +11,25 @@
 
 namespace nts
 {
+    class BluePrint
+    {
+    public:
+        nts::IComponent* create4001(std::string const& value);
+        nts::IComponent* create4011(std::string const& value);
+        nts::IComponent* create4071(std::string const& value);
+        nts::IComponent* create4081(std::string const& value);
+        nts::IComponent* create4013(std::string const& value);
+        nts::IComponent* create4030(std::string const& value);
+    };
+
     class ComponentFactory
     {
     public:
-        typedef IComponent* (ComponentFactory::*createCompPtr)(std::string const& value);
-        IComponent* createComponent(std::string const& type, std::string const& value);
+        typedef nts::IComponent* (nts::BluePrint::*createCompPtr)(std::string const& value);
+        nts::IComponent* createComponent(std::string const& type, std::string const& value);
 
     private:
-        static std::map<std::string, nts::ComponentFactory::createCompPtr> cmpBuilder;
-        std::map<std::string, nts::ComponentFactory::createCompPtr> createMap() const;
-        IComponent* create4001(std::string const& value) const;
-        IComponent* create4011(std::string const& value) const;
-        IComponent* create4071(std::string const& value) const;
-        IComponent* create4081(std::string const& value) const;
-        IComponent* create4013(std::string const& value) const;
-        IComponent* create4030(std::string const& value) const;
+        std::map<const std::string, createCompPtr> createMap();
     };
 }
 
