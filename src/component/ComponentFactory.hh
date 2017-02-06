@@ -6,6 +6,7 @@
 #define CPP_NANOTEKSPICE_COMPONENTFACTORY_HH
 
 #include <string>
+#include <map>
 #include "IComponent.hh"
 
 namespace nts
@@ -13,11 +14,13 @@ namespace nts
   class ComponentFactory
   {
   public:
-    typedef IComponent* (IComponent::*createCompPtr)(std::string const& value);
+    typedef IComponent* (ComponentFactory::*createCompPtr)(std::string const& value);
     IComponent* createComponent(std::string const& type, std::string const& value);
 
   private:
-
+    static std::map<std::string, nts::ComponentFactory::createCompPtr> cmpBuilder;
+    std::map<std::string, nts::ComponentFactory::createCompPtr> createMap() const;
+    IComponent* create4001(std::string const& value) const;
   };
 }
 

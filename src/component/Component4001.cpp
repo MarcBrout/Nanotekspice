@@ -19,7 +19,6 @@ nts::Tristate nts::Component4001::Compute(size_t pin_num_this)
 {
   nts::Tristate state;
 
-  state = UNDEFINED;
   if (!isPinOk(pin_num_this))
     throw std::logic_error(Name + " doesn't have a '" + std::to_string(pin_num_this) + "' pin");
 
@@ -31,6 +30,7 @@ nts::Tristate nts::Component4001::Compute(size_t pin_num_this)
       case 4 : state = Pins[4] = nor_gate(Pins[5], Pins[6]); break;
       case 10 : state = Pins[10] = nor_gate(Pins[8], Pins[9]); break;
       case 11 : state = Pins[11] = nor_gate(Pins[12], Pins[13]); break;
+      default: state = UNDEFINED;
     }
   }
   return (state);
