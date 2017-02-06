@@ -5,7 +5,7 @@
 #ifndef CPP_NANOTEKSPICE_COMPONENT4001_HH
 #define CPP_NANOTEKSPICE_COMPONENT4001_HH
 
-#include "Components.hh"
+#include "Component.hh"
 
 namespace nts
 {
@@ -20,7 +20,6 @@ namespace nts
     Component4001() = delete;
     Component4001(Component4001 const& cmp) = delete;
     Component4001 &operator=(Component4001 const& cmp) = delete;
-    nts::Tristate nor_gate(nts::Tristate in1, nts::Tristate in2);
   };
 }
 

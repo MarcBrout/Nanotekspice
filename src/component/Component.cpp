@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <map>
-#include "Components.hh"
+#include "Component.hh"
 
 nts::AComponent::AComponent(std::string const& name,
                             nts::ComponentType type,
