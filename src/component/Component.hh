@@ -18,6 +18,8 @@ namespace nts
         COMPONENT4071,
         COMPONENT4081,
         COMPONENT4008,
+        COMPONENT4013,
+        COMPONENT4030,
         END_COMPONENT
     };
 
@@ -26,7 +28,9 @@ namespace nts
             "4011",
             "4071",
             "4081",
-            "4008"
+            "4008",
+            "4013",
+            "4030"
     };
 
     typedef struct s_link Link;
