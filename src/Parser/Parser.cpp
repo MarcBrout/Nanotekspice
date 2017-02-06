@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "Parser.hh"
 #include "ComponentFactory.hh"
+#include "Component.hh"
 
 static std::array<std::string, 14> componentNameVec =
         {
@@ -34,6 +35,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
 {
     bool is_chips(false);
     bool is_links(false);
+    bool beginLink(false);
     std::array<std::string, 5> nameCompo = {
             "input",
             "output",
@@ -43,10 +45,13 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     };
     std::string tmp;
     std::vector<std::string> componentVec;
+    size_t pin(0);
     ComponentFactory fact;
+    IComponent *first = NULL;
 
     for (int i = 0; i < root.children->size(); i++)
     {
+        tmp = root.children[0][i]->lexeme;
         switch (root.children[0][i]->type)
         {
             case nts::ASTNodeType::SECTION:
@@ -70,22 +75,81 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                         std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][1]->lexeme) == componentNameVec.end()) ||
                         (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->value) != nameCompo.end() ||
                          std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end()))
+                {
                     throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
+                }
                 else
                 {
                     componentVec.push_back(root.children[0][i]->value);
                     factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
                 }
                 break;
+            case nts::ASTNodeType::LINK:
+                if (std::find(componentVec.begin(), componentVec.end(), root.children[0][i]->lexeme) == componentVec.end())
+                {
+                    throw std::logic_error("File corrupted: Component \"" + tmp + "\" doesn't exist.");
+                }
+                else if (!isdigit(root.children[0][i]->value[0]))
+                {
+                    throw std::logic_error("File corrupted: Invalid Format, value must be a digit number");
+                }
+                else if (!is_links)
+                {
+                    throw std::logic_error("File corrupted: Called a link before the section \"links\"");
+                }
+                else if (beginLink)
+                {
+                    throw std::logic_error("File corrupted: Start a new link, but previous link had not finished");
+                }
+                else
+                {
+                    beginLink = true;
+                    for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end() ; ++it)
+                    {
+                        if (static_cast<nts::AComponent *>(*it)->getName() == tmp)
+                        {
+                            first = *it;
+                            pin = static_cast<size_t>(std::stoi(root.children[0][i]->value));
+                            break;
+                        }
+                    }
+                }
+                break;
+            case nts::ASTNodeType::LINK_END:
+                if (std::find(componentVec.begin(), componentVec.end(), root.children[0][i]->lexeme) == componentVec.end())
+                {
+                    throw std::logic_error("File corrupted: Component \"" + tmp + "\" doesn't exist.");
+                }
+                else if (!isdigit(root.children[0][i]->value[0]))
+                {
+                    throw std::logic_error("File corrupted: Invalid Format, value must be a digit number");
+                }
+                else if (!beginLink)
+                {
+                    throw std::logic_error("File corrupted: try to end a new link, but no link has been began");
+                }
+                else
+                {
+                    beginLink = false;
+                    for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end() ; ++it)
+                    {
+                        if (static_cast<nts::AComponent *>(*it)->getName() == tmp)
+                        {
+                            first->SetLink(pin, **it, static_cast<size_t>(std::stoi(root.children[0][i]->value)));
+                            break;
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
-
 }
 
 void nts::Parser::createNode(std::string &it)
 {
     std::map<std::string, nts::FuncPtr>::iterator itm;
-    std::array<std::string, 14>::iterator itv;
     std::string c;
 
     if (myLexMap.empty())
@@ -99,7 +163,7 @@ void nts::Parser::createNode(std::string &it)
         (this->*itm->second)();
     else if ((itm = std::find(myLexMap.begin(), myLexMap.end(), c = it.substr(0, it.find(' ')))) != myLexMap.end())
         (this->*itm->second)();
-    else if ((itv = std::find(componentNameVec.begin(), componentNameVec.end(), c)) != componentNameVec.end())
+    else if (std::find(componentNameVec.begin(), componentNameVec.end(), c) != componentNameVec.end())
     {
         nameType = c;
         nameComponent = it.replace(it.begin(), it.end(), " ", "").substr(c.length());
