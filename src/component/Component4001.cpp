@@ -4,8 +4,8 @@
 
 #include <algorithm>
 #include <stdexcept>
-#include "../../include/Component4001.hh"
-#include "../../include/Gates.hh"
+#include "Component4001.hh"
+#include "Gates.hh"
 
 nts::Component4001::Component4001(std::string const& name) :
         AComponent(name,

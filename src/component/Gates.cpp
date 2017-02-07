@@ -2,7 +2,7 @@
 // Created by brout_m on 06/02/17.
 //
 
-#include "../../include/Gates.hh"
+#include "Gates.hh"
 
 nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2)
 {

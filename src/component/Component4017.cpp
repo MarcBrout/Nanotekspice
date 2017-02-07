@@ -3,8 +3,8 @@
 //
 
 #include <stdexcept>
-#include "../../include/Gates.hh"
-#include "../../include/Component4017.hh"
+#include "Gates.hh"
+#include "Component4017.hh"
 
 nts::Component4017::Component4017(std::string const &name) :
         AComponent(name,

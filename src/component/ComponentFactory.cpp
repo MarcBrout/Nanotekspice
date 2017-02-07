@@ -2,17 +2,17 @@
 // Created by brout_m on 28/01/17.
 //
 
-#include "../../include/ComponentFactory.hh"
-#include "../../include/Component4001.hh"
-#include "../../include/Component4011.hh"
-#include "../../include/Component4071.hh"
-#include "../../include/Component4081.hh"
-#include "../../include/Component4013.hh"
-#include "../../include/Component4030.hh"
-#include "../../include/Component4017.hh"
-#include "../../include/Component4040.hh"
-#include "../../include/Component4069.hh"
-#include "../../include/Component4514.hh"
+#include "ComponentFactory.hh"
+#include "Component4001.hh"
+#include "Component4011.hh"
+#include "Component4071.hh"
+#include "Component4081.hh"
+#include "Component4013.hh"
+#include "Component4030.hh"
+#include "Component4017.hh"
+#include "Component4040.hh"
+#include "Component4069.hh"
+#include "Component4514.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
