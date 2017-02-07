@@ -2,14 +2,15 @@
 // Created by brout_m on 07/02/17.
 //
 
+
 #include <algorithm>
 #include <stdexcept>
 #include <Gates.hh>
-#include "ComponentInput.hh"
+#include "ComponentOutput.hh"
 
-nts::ComponentInput::ComponentInput(std::string const &name) :
+nts::ComponentOutput::ComponentOutput(std::string const &name) :
         AComponent(name,
-                   nts::COMPONENTINPUT,
+                   nts::COMPONENTOUTPUT,
                    2,
                    {},
                    {},
@@ -17,9 +18,10 @@ nts::ComponentInput::ComponentInput(std::string const &name) :
 {
 }
 
-nts::Tristate nts::ComponentInput::Compute(size_t pin_num_this) {
+nts::Tristate nts::ComponentOutput::Compute(size_t pin_num_this) {
     if (!isPinOk(pin_num_this))
         throw std::logic_error(Name + " doesn't have a '" + std::to_string(pin_num_this) + "' pin");
 
+    Pins[1] = getPinLinkedInput(pin_num_this);
     return (Pins[1]);
 }
