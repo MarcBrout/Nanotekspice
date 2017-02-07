@@ -105,5 +105,5 @@ nts::IComponent *nts::BluePrint::createInput(std::string const &value) {
 }
 
 nts::IComponent *nts::BluePrint::createOutput(std::string const &value) {
-    return (new ComponentInput(value));
+    return (new ComponentOutput(value));
 }
