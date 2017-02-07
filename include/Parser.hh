@@ -8,11 +8,13 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "IParser.hh"
 #include "IComponent.hh"
 
 namespace nts
 {
+    class Parser;
     typedef void (nts::Parser::*FuncPtr)(void);
 
     class Parser : public nts::IParser
@@ -21,18 +23,20 @@ namespace nts
         nts::t_ast_node *tree;
         std::vector<std::string> lex;
         std::vector<nts::IComponent *> factory;
+        std::vector<nts::IComponent *> outputVec;
+        std::vector<nts::IComponent *> inputVec;
         std::string nameComponent;
         std::string nameType;
         std::string linkName;
         std::string linkValue;
         std::string commentString;
-       // static std::map<std::string, nts::FuncPtr> myLexMap;
+        //static std::map<std::string, nts::FuncPtr> myLexMap;
 
         std::map<std::string, nts::FuncPtr> create_map();
     protected:
-        void createNode(std::string &it);
+        void createNode(std::string it);
 
-        void section(std::string sect);
+        void section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap);
         void chipsets();
         void links();
 
@@ -47,14 +51,13 @@ namespace nts
         void falses();
         void componentName();
 
-        void linkToNode(std::string &it, const std::string &c);
+        void linkToNode(std::string &it, const std::string &c, std::map<std::string, nts::FuncPtr> &myLexMap);
 
         void link();
 
         void link_end();
 
         void comment();
-
     public:
         Parser();
 
@@ -62,12 +65,12 @@ namespace nts
 
         void show_tree();
 
-        void feed(std::string const &input) override;
+        void feed(std::string const &input);
 
-        void parseTree(nts::t_ast_node &root) override;
+        void parseTree(nts::t_ast_node &root);
 
         nts::t_ast_node &getRoot();
-        nts::t_ast_node *createTree() override;
+        nts::t_ast_node *createTree();
     };
 }
 

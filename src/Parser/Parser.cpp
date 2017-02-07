@@ -78,7 +78,20 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                          std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end())
                     throw std::logic_error("File corrupted: \"" + root.children[0][i]->value + "\" is not a valid type component");
                 componentVec.push_back(root.children[0][i]->value);
+                std::cout << root.children[0][i]->lexeme << " && " << root.children[0][i]->value << std::endl;
                 factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                if (root.children[0][i]->lexeme == "output")
+                {
+                    first = factory.back();
+                    outputVec.push_back(first);
+                    first = NULL;
+                }
+                else if (root.children[0][i]->lexeme == "input")
+                {
+                    first = factory.back();
+                    inputVec.push_back(first);
+                    first = NULL;
+                }
                 break;
             case nts::ASTNodeType::LINK:
 
@@ -103,9 +116,12 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     beginLink = true;
                     for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end() ; ++it)
                     {
+                        std::cout << tmp << std::endl;
+                        std::cout << static_cast<nts::AComponent *>(*it)->getName() << std::endl;
                         if (static_cast<nts::AComponent *>(*it)->getName() == tmp)
                         {
                             first = *it;
+                            std::cout << "SEGFAULT ON : " << root.children[0][i]->value << std::endl;
                             pin = static_cast<size_t>(std::stoi(root.children[0][i]->value));
                             break;
                         }
@@ -383,13 +399,13 @@ void nts::Parser::link_end()
     tree->children->push_back(node);
 }
 
-/*void nts::Parser::show_tree()
+void nts::Parser::show_tree()
 {
     for (std::vector<std::string>::iterator it = lex.begin(); it != lex.end() ; ++it)
     {
         std::cout << *it << std::endl;
     }
-}*/
+}
 
 nts::t_ast_node &nts::Parser::getRoot()
 {
