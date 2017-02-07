@@ -71,21 +71,31 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                 }
                 break;
             case nts::ASTNodeType::COMPONENT:
-                if ((std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->lexeme) == nameCompo.end() &&
-                        std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][1]->lexeme) == componentNameVec.end()) ||
-                        (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->value) != nameCompo.end() ||
-                         std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end()))
-                {
+                if (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->lexeme) == nameCompo.end() &&
+                    std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->lexeme) == componentNameVec.end())
                     throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
-                }
-                else
+                if (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->value) != nameCompo.end() ||
+                         std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end())
+                    throw std::logic_error("File corrupted: \"" + root.children[0][i]->value + "\" is not a valid type component");
+                componentVec.push_back(root.children[0][i]->value);
+                std::cout << root.children[0][i]->lexeme << " && " << root.children[0][i]->value << std::endl;
+                factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                if (root.children[0][i]->lexeme == "output")
                 {
-                    componentVec.push_back(root.children[0][i]->value);
-                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                    first = factory.back();
+                    outputVec.push_back(first);
+                    first = NULL;
+                }
+                else if (root.children[0][i]->lexeme == "input")
+                {
+                    first = factory.back();
+                    inputVec.push_back(first);
+                    first = NULL;
                 }
                 break;
             case nts::ASTNodeType::LINK:
-                if (std::find(componentVec.begin(), componentVec.end(), root.children[0][i]->lexeme) == componentVec.end())
+
+                if (std::find(componentVec.begin(), componentVec.end(), tmp) == componentVec.end())
                 {
                     throw std::logic_error("File corrupted: Component \"" + tmp + "\" doesn't exist.");
                 }
@@ -106,9 +116,12 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     beginLink = true;
                     for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end() ; ++it)
                     {
+                        std::cout << tmp << std::endl;
+                        std::cout << static_cast<nts::AComponent *>(*it)->getName() << std::endl;
                         if (static_cast<nts::AComponent *>(*it)->getName() == tmp)
                         {
                             first = *it;
+                            std::cout << "SEGFAULT ON : " << root.children[0][i]->value << std::endl;
                             pin = static_cast<size_t>(std::stoi(root.children[0][i]->value));
                             break;
                         }
@@ -147,8 +160,28 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     }
 }
 
-void nts::Parser::createNode(std::string &it)
+std::map<std::string, nts::FuncPtr> nts::Parser::create_map()
 {
+    std::map<std::string, nts::FuncPtr> mymap;
+
+    mymap["chipsets:"] = &nts::Parser::chipsets;
+    mymap["links:"] = &nts::Parser::links;
+    mymap["\n"] = &nts::Parser::newLine;
+    mymap["input"] = &nts::Parser::input;
+    mymap["output"] = &nts::Parser::output;
+    mymap["clock"] = &nts::Parser::clock;
+    mymap["true"] = &nts::Parser::trues;
+    mymap["false"] = &nts::Parser::falses;
+    mymap["name"] = &nts::Parser::componentName;
+    mymap["#"] = &nts::Parser::comment;
+    mymap["link"] = &nts::Parser::link;
+    mymap["linkEnd"] = &nts::Parser::link_end;
+    return mymap;
+}
+
+void nts::Parser::createNode(std::string it)
+{
+    std::map<std::string, nts::FuncPtr> myLexMap;
     std::map<std::string, nts::FuncPtr>::iterator itm;
     std::string c;
 
@@ -158,28 +191,47 @@ void nts::Parser::createNode(std::string &it)
         it = it.substr(0, it.find_last_of('#'));
     c = it[0];
     if (c == ".")
-        section(it.substr(1, it.length() - 1));
-    else if ((itm = myLexMap.find(c)) != myLexMap.end())
+    {
+        section(it.substr(1, it.length() - 1), myLexMap);
+        return;
+    }
+    if ((itm = myLexMap.find(c)) != myLexMap.end())
+    {
         (this->*itm->second)();
-    else if ((itm = myLexMap.find(c = it.substr(0, it.find(' ')))) != myLexMap.end())
+        return ;
+    }
+    if (it.find(' ') < it.find('\t'))
+        c = it.substr(0, it.find(' '));
+    else
+        c = it.substr(0, it.find('\t'));
+    if ((itm = myLexMap.find(c)) != myLexMap.end())
+    {
+        it.erase(std::remove(it.begin(), it.end(), ' '), it.end());
+        it.erase(std::remove(it.begin(), it.end(), '\t'), it.end());
+        nameComponent = it.substr(c.length());
         (this->*itm->second)();
+    }
     else if (std::find(componentNameVec.begin(), componentNameVec.end(), c) != componentNameVec.end())
     {
         nameType = c;
-        nameComponent = it.replace(it.begin(), it.end(), " ", "").substr(c.length());
+        it.erase(std::remove(it.begin(), it.end(), ' '), it.end());
+        it.erase(std::remove(it.begin(), it.end(), '\t'), it.end());
+        nameComponent = it.substr(c.length());
         (this->*myLexMap["name"])();
     }
-    else if (c.find(':'))
-        linkToNode(it, c);
+    else if (c.find(':') != std::string::npos)
+        linkToNode(it, c, myLexMap);
 }
 
-void nts::Parser::linkToNode(std::string &it, const std::string &c)
+void nts::Parser::linkToNode(std::string &it, const std::string &c, std::map<std::string, nts::FuncPtr> &myLexMap)
 {
     this->linkName = c.substr(0, c.find(':'));
     this->linkValue = c.substr(c.find(":") + 1, c.find(' '));
     (this->*myLexMap["link"])();
-    this->linkName = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(0, it.find(':'));
-    this->linkValue = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(it.find(':') + 1);
+    it.erase(std::remove(it.begin(), it.end(), ' '), it.end());
+    it.erase(std::remove(it.begin(), it.end(), '\t'), it.end());
+    this->linkName = it.substr(c.length()).substr(0, it.find(':'));
+    this->linkValue = it.substr(c.length()).substr(it.find(':') + 1);
     (this->*myLexMap["linkEnd"])();
 }
 
@@ -205,7 +257,7 @@ nts::Parser::~Parser()
         free(*it);
 }
 
-void nts::Parser::section(std::string sect)
+void nts::Parser::section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap)
 {
     std::map<std::string, nts::FuncPtr>::iterator it;
 
@@ -246,25 +298,6 @@ void nts::Parser::newLine()
     node->lexeme = "\n";
     node->value = "";
     tree->children->push_back(node);
-}
-
-std::map<std::string, nts::FuncPtr> nts::Parser::create_map()
-{
-    std::map<std::string, nts::FuncPtr> mymap;
-
-    mymap["chipsets:"] = &nts::Parser::chipsets;
-    mymap["links:"] = &nts::Parser::links;
-    mymap["\n"] = &nts::Parser::newLine;
-    mymap["input"] = &nts::Parser::input;
-    mymap["output"] = &nts::Parser::output;
-    mymap["clock"] = &nts::Parser::clock;
-    mymap["true"] = &nts::Parser::trues;
-    mymap["false"] = &nts::Parser::falses;
-    mymap["name"] = &nts::Parser::componentName;
-    mymap["#"] = &nts::Parser::comment;
-    mymap["link"] = &nts::Parser::link;
-    mymap["linkEnd"] = &nts::Parser::link_end;
-    return mymap;
 }
 
 void nts::Parser::input()
