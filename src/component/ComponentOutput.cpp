@@ -12,8 +12,8 @@ nts::ComponentOutput::ComponentOutput(std::string const &name) :
         AComponent(name,
                    nts::COMPONENTOUTPUT,
                    2,
-                   {},
-                   {},
+                   {1},
+                   {1},
                    {})
 {
 }

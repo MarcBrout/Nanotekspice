@@ -11,8 +11,8 @@ nts::ComponentInput::ComponentInput(std::string const &name) :
         AComponent(name,
                    nts::COMPONENTINPUT,
                    2,
-                   {},
-                   {},
+                   {1},
+                   {1},
                    {})
 {
 }
