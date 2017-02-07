@@ -18,6 +18,12 @@ namespace nts
         COMPONENT4071,
         COMPONENT4081,
         COMPONENT4008,
+        COMPONENT4013,
+        COMPONENT4030,
+        COMPONENT4017,
+        COMPONENT4040,
+        COMPONENT4069,
+        COMPONENT4514,
         END_COMPONENT
     };
 
@@ -26,10 +32,17 @@ namespace nts
             "4011",
             "4071",
             "4081",
-            "4008"
+            "4008",
+            "4013",
+            "4030",
+            "4017",
+            "4040",
+            "4069",
+            "4514"
     };
 
     typedef struct s_link Link;
+    typedef struct s_output Output;
 
     struct s_link
     {
@@ -39,11 +52,24 @@ namespace nts
         bool          operator==(size_t pin) const;
     };
 
+    struct s_output
+    {
+       size_t              me;
+       std::vector<size_t> required;
+        bool          operator==(size_t pin) const;
+    };
+
     class AComponent : public IComponent
     {
     public:
-        AComponent(std::string const &name, nts::ComponentType type, size_t nbPins, std::vector<size_t> const &inputs,
-                   std::vector<size_t> const &outputs);
+        AComponent(IComponent const& component) = delete;
+        IComponent &operator=(IComponent const& component) = delete;
+        AComponent(std::string const &name,
+                   nts::ComponentType type,
+                   size_t nbPins,
+                   std::vector<size_t> const &inputs,
+                   std::vector<size_t> const &outputs,
+                   std::vector<nts::Output> const &required);
         virtual ~AComponent(){};
 
     public:
@@ -63,18 +89,18 @@ namespace nts
         std::vector<size_t>         OutPins;
         std::vector<nts::Link>      Outputs;
         std::vector<nts::Link>      Inputs;
+        std::vector<nts::Output>    Required;
 
     protected:
-        AComponent(IComponent const& component) = delete;
-        IComponent &operator=(IComponent const& component) = delete;
         bool isPinOk(size_t pin) const;
         bool isInPinList(std::vector<size_t> const& pins, size_t pin) const;
         bool isPinAlreadyConnected(std::vector<nts::Link> const& links, size_t pin) const;
         void addLink(std::vector<nts::Link> &links, size_t me, IComponent *cmp, size_t it);
         nts::Tristate getPinLinkedInput(size_t pin);
+        nts::Tristate ComputeRequiredPins(size_t pin_num_this);
     };
-
-    std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 }
+
+std::ostream& operator<<(std::ostream &out, nts::Tristate state);
 
 #endif //CPP_NANOTEKSPICE_COMPONENTS_HH

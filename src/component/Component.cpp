@@ -12,12 +12,14 @@ nts::AComponent::AComponent(std::string const& name,
                             nts::ComponentType type,
                             size_t nbPins,
                             std::vector<size_t> const& inputs,
-                            std::vector<size_t> const& outputs) :
-    Name(name),
-    Type(type),
-    Pins(nbPins, UNDEFINED),
-    InPins(inputs),
-    OutPins(outputs)
+                            std::vector<size_t> const& outputs,
+                            std::vector<nts::Output> const& required) :
+        Name(name),
+        Type(type),
+        Pins(nbPins, UNDEFINED),
+        InPins(inputs),
+        OutPins(outputs),
+        Required(required)
 {
 }
 
@@ -30,7 +32,7 @@ bool nts::AComponent::setPin(size_t pin, nts::Tristate value)
 {
   if (!isPinOk(pin))
     return false;
-  Pins[pin - 1] = value;
+  Pins[pin] = value;
   return true;
 }
 
@@ -127,7 +129,7 @@ void nts::AComponent::SetLink(size_t pin_num_this, nts::IComponent &_component, 
 
 bool nts::AComponent::isPinOk(size_t pin) const
 {
-  return (pin && pin <= Pins.size());
+  return (pin && pin < Pins.size());
 }
 
 bool nts::AComponent::isInPinList(std::vector<size_t> const& pins, size_t pin) const
@@ -152,22 +154,24 @@ void nts::AComponent::addLink(std::vector<nts::Link> &links, size_t me, nts::ICo
 
 nts::Tristate nts::AComponent::getPinLinkedInput(size_t pin)
 {
-  std::vector<nts::Link>::const_iterator cit;
+  std::vector<nts::Link>::iterator    it;
+  AComponent                          *cmp;
 
-  if (isPinOk(pin) && isInPinList(InPins, pin))
-  {
-    cit = std::find(Inputs.cbegin(), Inputs.cend(), pin);
-    if (cit != Inputs.cend())
-      return ((*static_cast<AComponent*>(cit->component))[pin]);
+  it = std::find(Inputs.begin(), Inputs.end(), pin);
+  if (it != Inputs.end()) {
+    cmp = static_cast<AComponent *>(it->component);
+    if ((*cmp)[it->it] == UNDEFINED)
+      Pins[pin] = cmp->Compute(it->it);
+    return (Pins[pin]);
   }
   return (UNDEFINED);
 }
 
 nts::Tristate &nts::AComponent::operator[](size_t pin)
 {
-  if (!pin || pin > Pins.size())
+  if (!pin || pin >= Pins.size())
     throw std::logic_error("Pin out of range");
-  return Pins[pin - 1];
+  return Pins[pin];
 }
 
 nts::ComponentType nts::AComponent::getType(void) const
@@ -175,7 +179,51 @@ nts::ComponentType nts::AComponent::getType(void) const
   return Type;
 }
 
+
+/*
+ * This function computes an Output Pin : pin_num_this.
+ * It first searches its required input pins and try to compute them recursively if they're undefined
+ * Depending of the input pin required it calls either the this->Compute or the Linked component Compute method
+ */
+nts::Tristate nts::AComponent::ComputeRequiredPins(size_t pin_num_this) {
+  std::vector<nts::Output>::iterator  it;
+  std::vector<nts::Link>::iterator    link;
+  AComponent                          *cmp;
+
+  it = std::find(Required.begin(), Required.end(), pin_num_this);
+  if (it != Required.end())
+  {
+    for (std::vector<size_t>::iterator req = it->required.begin(); req != it->required.end(); req++)
+    {
+      if (Pins[*req] == UNDEFINED)
+      {
+        if (isInPinList(OutPins, *req))
+        {
+          Pins[*req] = this->Compute(*req);
+        }
+        else
+        {
+          link = std::find(Inputs.begin(), Inputs.end(), *req);
+          cmp = static_cast<AComponent *>(link->component);
+          if ((*cmp)[link->it] == UNDEFINED)
+          {
+            Pins[*req] = cmp->Compute(link->it);
+          } else {
+            Pins[*req] = (*cmp)[link->it];
+          }
+        }
+      }
+    }
+    return (TRUE);
+  }
+  return (FALSE);
+}
+
 bool nts::s_link::operator==(size_t pin) const
 {
+  return (me == pin);
+}
+
+bool nts::s_output::operator==(size_t pin) const {
   return (me == pin);
 }
