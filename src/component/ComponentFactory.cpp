@@ -13,6 +13,7 @@
 #include "Component4040.hh"
 #include "Component4069.hh"
 #include "Component4514.hh"
+#include "ComponentInput.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
@@ -43,6 +44,7 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
     map["4040"] = &nts::BluePrint::create4040;
     map["4069"] = &nts::BluePrint::create4069;
     map["4514"] = &nts::BluePrint::create4514;
+    map["input"] = &nts::BluePrint::createInput;
     return (map);
 }
 
@@ -94,4 +96,8 @@ nts::IComponent *nts::BluePrint::create4069(std::string const &value)
 nts::IComponent *nts::BluePrint::create4514(std::string const &value)
 {
     return (new Component4514(value));
+}
+
+nts::IComponent *nts::BluePrint::createInput(std::string const &value) {
+    return (new ComponentInput(value));
 }

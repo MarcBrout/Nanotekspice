@@ -45,7 +45,7 @@ std::ostream& operator<<(std::ostream &out, nts::Tristate state)
 void nts::AComponent::Dump(void) const
 {
   std::cout << "Component : " << Type << " " << Name << "\n"
-            << "Input pins :\n";
+            << "ComponentInput pins :\n";
 
   if (!InPins.size())
     std::cout << "No input pin\n";
@@ -54,7 +54,7 @@ void nts::AComponent::Dump(void) const
     for (size_t i = 0; i < InPins.size(); ++i) {
       std::cout << "Pin '" << InPins[i] << "' = " << Pins[InPins[i]] << "\n";
     }
-    std::cout << "\nInput links: \n";
+    std::cout << "\nComponentInput links: \n";
     for (size_t i = 0; i < Inputs.size(); ++i)
     {
       std::cout << "Pin '" << Inputs[i].me << "' is linked to "
