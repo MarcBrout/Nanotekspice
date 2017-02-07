@@ -24,6 +24,8 @@ namespace nts
         COMPONENT4040,
         COMPONENT4069,
         COMPONENT4514,
+        COMPONENTINPUT,
+        COMPONENTOUTPUT,
         END_COMPONENT
     };
 
@@ -38,7 +40,9 @@ namespace nts
             "4017",
             "4040",
             "4069",
-            "4514"
+            "4514",
+            "input",
+            "output"
     };
 
     typedef struct s_link Link;
