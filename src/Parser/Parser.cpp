@@ -47,7 +47,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     std::vector<std::string> componentVec;
     size_t pin(0);
     ComponentFactory fact;
-    IComponent *first = NULL;
+    IComponent *first = nullptr;
 
     for (size_t i = 0; i < root.children->size(); i++)
     {
@@ -78,18 +78,19 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                          std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end())
                     throw std::logic_error("File corrupted: \"" + root.children[0][i]->value + "\" is not a valid type component");
                 componentVec.push_back(root.children[0][i]->value);
+
                 factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
                 if (root.children[0][i]->lexeme == "output")
                 {
                     first = factory.back();
                     outputVec.push_back(first);
-                    first = NULL;
+                    first = nullptr;
                 }
                 else if (root.children[0][i]->lexeme == "input")
                 {
                     first = factory.back();
                     inputVec.push_back(first);
-                    first = NULL;
+                    first = nullptr;
                 }
                 break;
             case nts::ASTNodeType::LINK:
