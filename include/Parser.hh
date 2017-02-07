@@ -8,13 +8,11 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
 #include "IParser.hh"
 #include "IComponent.hh"
 
 namespace nts
 {
-    class Parser;
     typedef void (nts::Parser::*FuncPtr)(void);
 
     class Parser : public nts::IParser
@@ -63,12 +61,12 @@ namespace nts
 
         void show_tree();
 
-        void feed(std::string const &input);
+        void feed(std::string const &input) override;
 
-        void parseTree(nts::t_ast_node &root);
+        void parseTree(nts::t_ast_node &root) override;
 
         nts::t_ast_node &getRoot();
-        nts::t_ast_node *createTree();
+        nts::t_ast_node *createTree() override;
     };
 }
 

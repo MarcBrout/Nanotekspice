@@ -49,7 +49,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     ComponentFactory fact;
     IComponent *first = NULL;
 
-    for (int i = 0; i < root.children->size(); i++)
+    for (size_t i = 0; i < root.children->size(); i++)
     {
         tmp = root.children[0][i]->lexeme;
         switch (root.children[0][i]->type)
@@ -159,9 +159,9 @@ void nts::Parser::createNode(std::string &it)
     c = it[0];
     if (c == ".")
         section(it.substr(1, it.length() - 1));
-    else if ((itm = std::find(myLexMap.begin(), myLexMap.end(), c)) != myLexMap.end())
+    else if ((itm = myLexMap.find(c)) != myLexMap.end())
         (this->*itm->second)();
-    else if ((itm = std::find(myLexMap.begin(), myLexMap.end(), c = it.substr(0, it.find(' ')))) != myLexMap.end())
+    else if ((itm = myLexMap.find(c = it.substr(0, it.find(' ')))) != myLexMap.end())
         (this->*itm->second)();
     else if (std::find(componentNameVec.begin(), componentNameVec.end(), c) != componentNameVec.end())
     {
@@ -177,10 +177,10 @@ void nts::Parser::linkToNode(std::string &it, const std::string &c)
 {
     this->linkName = c.substr(0, c.find(':'));
     this->linkValue = c.substr(c.find(":") + 1, c.find(' '));
-    (this->*nts::Parser::myLexMap["link"])();
+    (this->*myLexMap["link"])();
     this->linkName = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(0, it.find(':'));
     this->linkValue = it.replace(it.begin(), it.end(), " ", "").substr(c.length()).substr(it.find(':') + 1);
-    (this->*nts::Parser::myLexMap["linkEnd"]);
+    (this->*myLexMap["linkEnd"])();
 }
 
 nts::t_ast_node *nts::Parser::createTree()
@@ -192,7 +192,8 @@ nts::t_ast_node *nts::Parser::createTree()
 
 nts::Parser::Parser()
 {
-    tree = new nts::t_ast_node;
+    std::vector<struct s_ast_node *> *vec = new std::vector<struct s_ast_node *>();
+    tree = new t_ast_node(vec);
     tree->lexeme = "";
     tree->type = nts::ASTNodeType::DEFAULT;
     tree->value = "";
@@ -200,15 +201,15 @@ nts::Parser::Parser()
 
 nts::Parser::~Parser()
 {
-    if (tree)
-        delete tree;
+    for (std::vector<struct s_ast_node*>::iterator it = tree->children->begin(); it != tree->children->end(); ++it)
+        free(*it);
 }
 
 void nts::Parser::section(std::string sect)
 {
     std::map<std::string, nts::FuncPtr>::iterator it;
 
-    if ((it = std::find(myLexMap.begin(), myLexMap.end(), sect)) == myLexMap.end())
+    if ((it = myLexMap.find(sect)) == myLexMap.end())
         throw std::logic_error("File corrupted. The section " + sect.substr(0, sect.length() - 1) + " doesn't exist");
     else
         (this->*it->second)();
@@ -218,7 +219,7 @@ void nts::Parser::chipsets()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::SECTION;
     node->lexeme = "chipsets";
     node->value = "";
@@ -229,7 +230,7 @@ void nts::Parser::links()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::SECTION;
     node->lexeme = "links";
     node->value = "";
@@ -240,7 +241,7 @@ void nts::Parser::newLine()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::NEWLINE;
     node->lexeme = "\n";
     node->value = "";
@@ -249,19 +250,20 @@ void nts::Parser::newLine()
 
 std::map<std::string, nts::FuncPtr> nts::Parser::create_map()
 {
-    std::map<std::string, nts::FuncPtr> mymap {
-            {"chipsets:", &nts::Parser::chipsets},
-            {"links:", &nts::Parser::links},
-            {"\n", &nts::Parser::newLine},
-            {"input", &nts::Parser::input},
-            {"output", &nts::Parser::output},
-            {"clock", &nts::Parser::clock},
-            {"true", &nts::Parser::trues},
-            {"false", &nts::Parser::falses},
-            {"name", &nts::Parser::componentName},
-            {"#", &nts::Parser::comment},
-            {"link", &nts::Parser::link},
-            {"linkEnd", &nts::Parser::link_end} };
+    std::map<std::string, nts::FuncPtr> mymap;
+
+    mymap["chipsets:"] = &nts::Parser::chipsets;
+    mymap["links:"] = &nts::Parser::links;
+    mymap["\n"] = &nts::Parser::newLine;
+    mymap["input"] = &nts::Parser::input;
+    mymap["output"] = &nts::Parser::output;
+    mymap["clock"] = &nts::Parser::clock;
+    mymap["true"] = &nts::Parser::trues;
+    mymap["false"] = &nts::Parser::falses;
+    mymap["name"] = &nts::Parser::componentName;
+    mymap["#"] = &nts::Parser::comment;
+    mymap["link"] = &nts::Parser::link;
+    mymap["linkEnd"] = &nts::Parser::link_end;
     return mymap;
 }
 
@@ -269,7 +271,7 @@ void nts::Parser::input()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = "input";
     node->value = nameComponent;
@@ -280,7 +282,7 @@ void nts::Parser::output()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = "output";
     node->value = nameComponent;
@@ -291,7 +293,7 @@ void nts::Parser::clock()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = "clock";
     node->value = nameComponent;
@@ -302,7 +304,7 @@ void nts::Parser::trues()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = "true";
     node->value = nameComponent;
@@ -313,7 +315,7 @@ void nts::Parser::falses()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = "false";
     node->value = nameComponent;
@@ -324,7 +326,7 @@ void nts::Parser::componentName()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::COMPONENT;
     node->lexeme = nameType;
     node->value = nameComponent;
@@ -335,7 +337,7 @@ void nts::Parser::comment()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::STRING;
     node->lexeme = commentString;
     node->value = "";
@@ -346,7 +348,7 @@ void nts::Parser::link()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::LINK;
     node->lexeme = linkName;
     node->value = linkValue;
@@ -357,9 +359,22 @@ void nts::Parser::link_end()
 {
     t_ast_node *node;
 
-    node = new t_ast_node;
+    node = new t_ast_node(tree->children);
     node->type = nts::ASTNodeType::LINK_END;
     node->lexeme = linkName;
     node->value = linkValue;
     tree->children->push_back(node);
+}
+
+void nts::Parser::show_tree()
+{
+    for (std::vector<std::string>::iterator it = lex.begin(); it != lex.end() ; ++it)
+    {
+        std::cout << *it << std::endl;
+    }
+}
+
+nts::t_ast_node &nts::Parser::getRoot()
+{
+    return *tree;
 }
