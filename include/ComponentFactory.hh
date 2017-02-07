@@ -15,6 +15,7 @@ namespace nts
     {
     public:
         nts::IComponent* create4001(std::string const& value);
+        nts::IComponent* create4008(std::string const& value);
         nts::IComponent* create4011(std::string const& value);
         nts::IComponent* create4071(std::string const& value);
         nts::IComponent* create4081(std::string const& value);

@@ -4,6 +4,7 @@
 
 #include "ComponentFactory.hh"
 #include "Component4001.hh"
+#include "Component4008.hh"
 #include "Component4011.hh"
 #include "Component4071.hh"
 #include "Component4081.hh"
@@ -27,7 +28,7 @@ nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type,
 
     cit = cmpBuilder.find(type);
     if (cit == cmpBuilder.end())
-        return (NULL);
+        return (nullptr);
     return (bluePrint.*cmpBuilder[type])(value);
 }
 
@@ -36,6 +37,7 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
     std::map<const std::string, nts::ComponentFactory::createCompPtr> map;
 
     map["4001"] = &nts::BluePrint::create4001;
+    map["4008"] = &nts::BluePrint::create4008;
     map["4011"] = &nts::BluePrint::create4011;
     map["4071"] = &nts::BluePrint::create4071;
     map["4081"] = &nts::BluePrint::create4081;
@@ -53,6 +55,11 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
 nts::IComponent *nts::BluePrint::create4001(std::string const &value)
 {
     return (new Component4001(value));
+}
+
+nts::IComponent *nts::BluePrint::create4008(std::string const &value)
+{
+    return (new Component4008(value));
 }
 
 nts::IComponent *nts::BluePrint::create4011(std::string const &value)
