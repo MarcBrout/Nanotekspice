@@ -2,26 +2,28 @@
 // Created by brout_m on 06/02/17.
 //
 
-#include <stdexcept>
 #include <algorithm>
+#include <stdexcept>
+#include "Component4069.hh"
 #include "Gates.hh"
-#include "Component4030.hh"
 
-nts::Component4030::Component4030(std::string const& name) :
+nts::Component4069::Component4069(std::string const& name) :
         AComponent(name,
-                   nts::COMPONENT4030,
+                   nts::COMPONENT4069,
                    14,
-                   {1, 2, 5, 6, 8, 9, 12, 13},
-                   {3, 4, 10, 11},
-                   {{3, {1, 2}},
-                    {4, {5, 6}},
-                    {10, {8, 9}},
-                    {11, {12, 13}}
+                   {1, 3, 5, 9, 11, 13},
+                   {2, 4, 6, 8, 10, 12},
+                   {{2, {1}},
+                    {4, {3}},
+                    {6, {5}},
+                    {8, {9}},
+                    {10, {11}},
+                    {12, {13}}
                    })
 {
 }
 
-nts::Tristate nts::Component4030::Compute(size_t pin_num_this)
+nts::Tristate nts::Component4069::Compute(size_t pin_num_this)
 {
     nts::Tristate                       state;
     std::vector<nts::Output>::iterator  it;
@@ -35,7 +37,7 @@ nts::Tristate nts::Component4030::Compute(size_t pin_num_this)
         ComputeRequiredPins(pin_num_this);
         it = std::find(Required.begin(), Required.end(), pin_num_this);
         if (it != Required.end())
-            state = Pins[pin_num_this] = Gates::_xor(Pins[it->required[0]], Pins[it->required[1]]);
+            state = Pins[pin_num_this] = Gates::inverter(Pins[it->required[0]]);
         else
             state = UNDEFINED;
     }

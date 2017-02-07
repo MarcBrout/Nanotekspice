@@ -9,12 +9,15 @@
 #include "Component4081.hh"
 #include "Component4013.hh"
 #include "Component4030.hh"
+#include "Component4017.hh"
+#include "Component4040.hh"
+#include "Component4069.hh"
+#include "Component4514.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
     static std::map<const std::string, nts::ComponentFactory::createCompPtr> cmpBuilder = createMap();
     std::map<const std::string, nts::ComponentFactory::createCompPtr>::const_iterator cit;
-    nts::ComponentFactory::createCompPtr ptr;
     BluePrint bluePrint;
 
     if (cmpBuilder.empty())
@@ -23,8 +26,7 @@ nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type,
     cit = cmpBuilder.find(type);
     if (cit == cmpBuilder.end())
         return (NULL);
-    ptr = cit->second;
-    return (bluePrint.*ptr)(value);
+    return (bluePrint.*cmpBuilder[type])(value);
 }
 
 std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::ComponentFactory::createMap()
@@ -37,6 +39,10 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
     map["4081"] = &nts::BluePrint::create4081;
     map["4013"] = &nts::BluePrint::create4013;
     map["4030"] = &nts::BluePrint::create4030;
+    map["4017"] = &nts::BluePrint::create4017;
+    map["4040"] = &nts::BluePrint::create4040;
+    map["4069"] = &nts::BluePrint::create4069;
+    map["4514"] = &nts::BluePrint::create4514;
     return (map);
 }
 
@@ -68,4 +74,24 @@ nts::IComponent *nts::BluePrint::create4013(std::string const &value)
 nts::IComponent *nts::BluePrint::create4030(std::string const &value)
 {
     return (new Component4030(value));
+}
+
+nts::IComponent *nts::BluePrint::create4017(std::string const &value)
+{
+    return (new Component4017(value));
+}
+
+nts::IComponent *nts::BluePrint::create4040(std::string const &value)
+{
+    return (new Component4040(value));
+}
+
+nts::IComponent *nts::BluePrint::create4069(std::string const &value)
+{
+    return (new Component4069(value));
+}
+
+nts::IComponent *nts::BluePrint::create4514(std::string const &value)
+{
+    return (new Component4514(value));
 }

@@ -20,6 +20,10 @@ namespace nts
         nts::IComponent* create4081(std::string const& value);
         nts::IComponent* create4013(std::string const& value);
         nts::IComponent* create4030(std::string const& value);
+        nts::IComponent* create4017(std::string const& value);
+        nts::IComponent* create4040(std::string const& value);
+        nts::IComponent* create4069(std::string const& value);
+        nts::IComponent* create4514(std::string const& value);
     };
 
     class ComponentFactory

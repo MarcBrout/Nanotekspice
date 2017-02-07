@@ -32,13 +32,29 @@ nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
     return ((in1 == TRUE || in2 == TRUE) ? TRUE : FALSE);
 }
 
-nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& ret)
+nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& co)
 {
+    nts::Tristate add;
+    nts::Tristate ret;
+
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
-    if (in1 == in2 && in1 == TRUE)
-        ret = TRUE;
-    return ((in1 == in2) ? FALSE : TRUE);
+
+    ret = FALSE;
+    if (in1 != in2) {
+        add = TRUE;
+    } else  {
+        if (in1 == TRUE)
+            ret = TRUE;
+        add = FALSE;
+    }
+    if (co != UNDEFINED) {
+        if (add == TRUE && co == TRUE)
+            ret = TRUE;
+        add = (add != co ? TRUE : FALSE);
+    }
+    co = ret;
+    return (add);
 }
 
 nts::Tristate nts::Gates::flipflop(nts::Tristate clock,
@@ -87,4 +103,10 @@ nts::Tristate nts::Gates::_xor(nts::Tristate in1, nts::Tristate in2) {
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
     return (in1 != in2 ? TRUE : FALSE);
+}
+
+nts::Tristate nts::Gates::inverter(nts::Tristate in1) {
+    if (in1 == UNDEFINED)
+        return (in1);
+    return (in1 == TRUE ? FALSE : TRUE);
 }
