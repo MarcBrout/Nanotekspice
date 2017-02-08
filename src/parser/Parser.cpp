@@ -47,7 +47,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     std::vector<std::string> componentVec;
     size_t pin(0);
     ComponentFactory fact;
-    IComponent *first = NULL;
+    IComponent *first = nullptr;
 
     for (size_t i = 0; i < root.children->size(); i++)
     {
@@ -78,23 +78,22 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                          std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end())
                     throw std::logic_error("File corrupted: \"" + root.children[0][i]->value + "\" is not a valid type component");
                 componentVec.push_back(root.children[0][i]->value);
-                std::cout << root.children[0][i]->lexeme << " && " << root.children[0][i]->value << std::endl;
+
                 factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
                 if (root.children[0][i]->lexeme == "output")
                 {
                     first = factory.back();
                     outputVec.push_back(first);
-                    first = NULL;
+                    first = nullptr;
                 }
                 else if (root.children[0][i]->lexeme == "input")
                 {
                     first = factory.back();
                     inputVec.push_back(first);
-                    first = NULL;
+                    first = nullptr;
                 }
                 break;
             case nts::ASTNodeType::LINK:
-
                 if (std::find(componentVec.begin(), componentVec.end(), tmp) == componentVec.end())
                 {
                     throw std::logic_error("File corrupted: Component \"" + tmp + "\" doesn't exist.");
@@ -116,12 +115,9 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     beginLink = true;
                     for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end() ; ++it)
                     {
-                        std::cout << tmp << std::endl;
-                        std::cout << static_cast<nts::AComponent *>(*it)->getName() << std::endl;
                         if (static_cast<nts::AComponent *>(*it)->getName() == tmp)
                         {
                             first = *it;
-                            std::cout << "SEGFAULT ON : " << root.children[0][i]->value << std::endl;
                             pin = static_cast<size_t>(std::stoi(root.children[0][i]->value));
                             break;
                         }
@@ -129,7 +125,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                 }
                 break;
             case nts::ASTNodeType::LINK_END:
-                if (std::find(componentVec.begin(), componentVec.end(), root.children[0][i]->lexeme) == componentVec.end())
+                if (std::find(componentVec.begin(), componentVec.end(), tmp) == componentVec.end())
                 {
                     throw std::logic_error("File corrupted: Component \"" + tmp + "\" doesn't exist.");
                 }
@@ -230,8 +226,9 @@ void nts::Parser::linkToNode(std::string &it, const std::string &c, std::map<std
     (this->*myLexMap["link"])();
     it.erase(std::remove(it.begin(), it.end(), ' '), it.end());
     it.erase(std::remove(it.begin(), it.end(), '\t'), it.end());
-    this->linkName = it.substr(c.length()).substr(0, it.find(':'));
-    this->linkValue = it.substr(c.length()).substr(it.find(':') + 1);
+    it = it.substr(c.length());
+    this->linkName = it.substr(0, it.find(':'));
+    this->linkValue = it.substr(it.find(':') + 1);
     (this->*myLexMap["linkEnd"])();
 }
 
@@ -254,7 +251,11 @@ nts::Parser::Parser()
 nts::Parser::~Parser()
 {
     for (std::vector<struct s_ast_node*>::iterator it = tree->children->begin(); it != tree->children->end(); ++it)
-        free(*it);
+        delete *it;
+    for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end(); ++it)
+        delete *it;
+    delete tree->children;
+    delete tree;
 }
 
 void nts::Parser::section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap)
@@ -399,15 +400,22 @@ void nts::Parser::link_end()
     tree->children->push_back(node);
 }
 
-void nts::Parser::show_tree()
-{
-    for (std::vector<std::string>::iterator it = lex.begin(); it != lex.end() ; ++it)
-    {
-        std::cout << *it << std::endl;
-    }
-}
-
 nts::t_ast_node &nts::Parser::getRoot()
 {
     return *tree;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getOutputVec() const
+{
+    return outputVec;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getInputVec() const
+{
+    return inputVec;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getFactory() const
+{
+    return factory;
 }
