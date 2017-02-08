@@ -251,7 +251,11 @@ nts::Parser::Parser()
 nts::Parser::~Parser()
 {
     for (std::vector<struct s_ast_node*>::iterator it = tree->children->begin(); it != tree->children->end(); ++it)
-        free(*it);
+        delete *it;
+    for (std::vector<IComponent *>::iterator it = factory.begin(); it != factory.end(); ++it)
+        delete *it;
+    delete tree->children;
+    delete tree;
 }
 
 void nts::Parser::section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap)
@@ -396,15 +400,22 @@ void nts::Parser::link_end()
     tree->children->push_back(node);
 }
 
-void nts::Parser::show_tree()
-{
-    for (std::vector<std::string>::iterator it = lex.begin(); it != lex.end() ; ++it)
-    {
-        std::cout << *it << std::endl;
-    }
-}
-
 nts::t_ast_node &nts::Parser::getRoot()
 {
     return *tree;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getOutputVec() const
+{
+    return outputVec;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getInputVec() const
+{
+    return inputVec;
+}
+
+const std::vector<nts::IComponent *> &nts::Parser::getFactory() const
+{
+    return factory;
 }

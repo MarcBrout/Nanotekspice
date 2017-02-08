@@ -30,16 +30,18 @@ namespace nts
         std::string linkName;
         std::string linkValue;
         std::string commentString;
-        //static std::map<std::string, nts::FuncPtr> myLexMap;
 
         std::map<std::string, nts::FuncPtr> create_map();
-    protected:
+        Parser(Parser const& pars) = delete;
+        Parser &operator=(Parser const& pars) = delete;
         void createNode(std::string it);
 
+        // Section
         void section(std::string sect, std::map<std::string, nts::FuncPtr> &myLexMap);
         void chipsets();
         void links();
 
+        // '\n'
         void newLine();
 
         //components
@@ -51,25 +53,33 @@ namespace nts
         void falses();
         void componentName();
 
+        // Links
         void linkToNode(std::string &it, const std::string &c, std::map<std::string, nts::FuncPtr> &myLexMap);
 
         void link();
 
         void link_end();
 
+        // Comments
         void comment();
+
     public:
         Parser();
 
         virtual ~Parser();
-
-        void show_tree();
 
         void feed(std::string const &input);
 
         void parseTree(nts::t_ast_node &root);
 
         nts::t_ast_node &getRoot();
+
+        const std::vector<IComponent *> &getOutputVec() const;
+
+        const std::vector<IComponent *> &getInputVec() const;
+
+        const std::vector<IComponent *> &getFactory() const;
+
         nts::t_ast_node *createTree();
     };
 }
