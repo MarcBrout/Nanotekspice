@@ -16,6 +16,9 @@
 #include "Component4514.hh"
 #include "ComponentInput.hh"
 #include "ComponentOutput.hh"
+#include "ComponentClock.hh"
+#include "ComponentTrue.hh"
+#include "ComponentFalse.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
@@ -49,6 +52,10 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
     map["4514"] = &nts::BluePrint::create4514;
     map["input"] = &nts::BluePrint::createInput;
     map["output"] = &nts::BluePrint::createOutput;
+    map["clock"] = &nts::BluePrint::createClock;
+    map["false"] = &nts::BluePrint::createFalse;
+    map["true"] = &nts::BluePrint::createTrue;
+
     return (map);
 }
 
@@ -114,3 +121,16 @@ nts::IComponent *nts::BluePrint::createInput(std::string const &value) {
 nts::IComponent *nts::BluePrint::createOutput(std::string const &value) {
     return (new ComponentOutput(value));
 }
+
+nts::IComponent *nts::BluePrint::createClock(std::string const &value) {
+    return (new ComponentClock(value));
+}
+
+nts::IComponent *nts::BluePrint::createFalse(std::string const &value) {
+    return (new ComponentFalse(value));
+}
+
+nts::IComponent *nts::BluePrint::createTrue(std::string const &value) {
+    return (new ComponentTrue(value));
+}
+

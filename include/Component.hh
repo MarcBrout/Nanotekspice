@@ -26,6 +26,9 @@ namespace nts
         COMPONENT4514,
         COMPONENTINPUT,
         COMPONENTOUTPUT,
+        COMPONENTCLOCK,
+        COMPONENTFALSE,
+        COMPONENTTRUE,
         END_COMPONENT
     };
 
@@ -42,7 +45,10 @@ namespace nts
             "4069",
             "4514",
             "input",
-            "output"
+            "output",
+            "clock",
+            "false",
+            "true"
     };
 
     typedef struct s_link Link;

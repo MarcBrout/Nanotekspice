@@ -27,6 +27,9 @@ namespace nts
         nts::IComponent* create4514(std::string const& value);
         nts::IComponent* createInput(std::string const& value);
         nts::IComponent* createOutput(std::string const& value);
+        nts::IComponent *createClock(std::string const& value);
+        nts::IComponent* createFalse(std::string const& value);
+        nts::IComponent *createTrue(std::string const& value);
     };
 
     class ComponentFactory
