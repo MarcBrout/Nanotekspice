@@ -18,8 +18,6 @@ namespace nts
         nts::Parser pars;
         std::map<std::string, ComPtr> commands;
         bool isLoop;
-        int signaled;
-        //typedef void (nts::Loop::*handler)(int);
 
         Loop(Loop const &loop) = delete;
 
@@ -27,7 +25,6 @@ namespace nts
 
         void createCommand();
 
-        void my_handler(int signal);
         void Exit();
         void Display();
         void Simulate();

@@ -7,6 +7,8 @@
 #include <fstream>
 #include "Loop.hh"
 
+sig_atomic_t signaled = 0;
+
 nts::Loop::Loop()
 {
     isLoop = true;
@@ -23,7 +25,7 @@ void nts::Loop::launchPars(std::string const& file)
     std::fstream ifs;
     std::string str;
 
-    ifs.open(file, std::basic_ios::in);
+    ifs.open(file, std::fstream::in);
     if (ifs.is_open())
     {
         while (std::getline(ifs, str, '\n').good())
@@ -67,10 +69,15 @@ void nts::Loop::Simulate()
     }
 }
 
+void    my_handler(int sig)
+{
+    if (sig == SIGINT)
+        signaled = 1;
+}
+
 void nts::Loop::LoopSimulate()
 {
-    void (nts::Loop::*prev_handler)(int);
-    static_cast<__sighandler_t>(prev_handler) = signal(SIGINT, my_handler);
+    signal(SIGINT, my_handler);
     while (!signaled)
     {
         for (std::vector<IComponent *>::const_iterator it = pars.getOutputVec().begin(); it != pars.getOutputVec().end() ; ++it)
@@ -78,6 +85,7 @@ void nts::Loop::LoopSimulate()
             static_cast<AComponent *>(*it)->Compute();
         }
     }
+    signaled = 0;
 }
 
 void nts::Loop::Dump()
@@ -104,11 +112,6 @@ void nts::Loop::setPin(std::string &name, int pin)
     {
         std::cout << "Error: Cannot set pin: Component name doesn't exist" << std::endl;
     }
-}
-
-void nts::Loop::my_handler(int signal)
-{
-    signaled = 1;
 }
 
 void nts::Loop::launchCommand(std::string const &command)
@@ -162,5 +165,5 @@ bool nts::Loop::run(int argc, char **argv)
             std::cout << "> " << std::endl;
         }
     }
-    return true:
+    return true;
 }
