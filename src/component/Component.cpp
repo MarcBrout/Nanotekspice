@@ -162,6 +162,8 @@ nts::Tristate nts::AComponent::getPinLinkedInput(size_t pin)
     cmp = static_cast<AComponent *>(it->component);
     if ((*cmp)[it->it] == UNDEFINED)
       Pins[pin] = cmp->Compute(it->it);
+    else
+        Pins[pin] = (*cmp)[it->it];
     return (Pins[pin]);
   }
   return (UNDEFINED);
