@@ -59,6 +59,7 @@ namespace nts
         size_t        me;
         IComponent    *component;
         size_t        it;
+        bool          isComputed;
         bool          operator==(size_t pin) const;
     };
 
@@ -90,6 +91,7 @@ namespace nts
         std::string const &getName(void) const;
         bool setPin(size_t pin, nts::Tristate value);
         nts::Tristate& operator[](size_t pin);
+        virtual void resetComputedPins(void);
 
     protected:
         std::string                 Name;
