@@ -10,7 +10,8 @@
 
 TEST4001=	tests4001
 TEST4008=	tests4008
-
+TESTINPUT=	testsInput
+TESTOUTPUT=	testsOutput
 
 COMPONENTPATH= ../src/component
 
@@ -40,9 +41,16 @@ TEST4001SRC=	$(TESTSSRC) \
 TEST4008SRC=	$(TESTSSRC) \
 		./tests-component4008.cpp
 
+TESTINPUTSRC=	$(TESTSSRC) \
+		./tests-componentInput.cpp
+
+TESTOUTPUTSRC=	$(TESTSSRC) \
+		./tests-componentOutput.cpp
+
 TEST4001OBJ=	$(TEST4001SRC:.cpp=.o)
 TEST4008OBJ=	$(TEST4008SRC:.cpp=.o)
-
+TESTINPUTOBJ=	$(TESTINPUTSRC:.cpp=.o)
+TESTOUTPUTOBJ=	$(TESTOUTPUTSRC:.cpp=.o)
 
 INC=		-I../include
 
@@ -50,21 +58,31 @@ CXX= 		g++ $(INC) -std=c++11
 
 CFLAGS=		-g $(INC)
 
-$(TEST4001): $(TEST4008) $(TEST4001OBJ)
+$(TEST4001): $(TESTOUTPUT) $(TESTINPUT) $(TEST4008) $(TEST4001OBJ)
 	g++ -o $(TEST4001) $(TEST4001OBJ) $(INC)
 
 $(TEST4008): $(TEST4008OBJ)
 	g++ -o $(TEST4008) $(TEST4008OBJ) $(INC)
+
+$(TESTINPUT): $(TESTINPUTOBJ)
+	g++ -o $(TESTINPUT) $(TESTINPUTOBJ) $(INC)
+
+$(TESTOUTPUT): $(TESTOUTPUTOBJ)
+	g++ -o $(TESTOUTPUT) $(TESTOUTPUTOBJ) $(INC)
 
 all: $(TEST4001)
 
 clean:
 	rm -rf $(TEST4001OBJ)
 	rm -rf $(TEST4008OBJ)
+	rm -rf $(TESTINPUTOBJ)
+	rm -rf $(TESTOUTPUTOBJ)
 
 fclean: clean
 	rm -rf $(TEST4001)
 	rm -rf $(TEST4008)
+	rm -rf $(TESTINPUT)
+	rm -rf $(TESTOUTPUT)
 
 re: fclean all
 
