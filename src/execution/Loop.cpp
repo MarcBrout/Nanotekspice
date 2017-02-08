@@ -148,13 +148,13 @@ bool nts::Loop::run(int argc, char **argv)
         launchCommand(argv[i]);
         i++;
     }
-    launchCommand("Simulate");
-    launchCommand("Display");
+    launchCommand("simulate");
+    launchCommand("display");
     std::cout << "> ";
     while (isLoop)
     {
         std::getline(std::cin, command);
-        if (!std::cin.eof())
+        if (std::cin.eof())
         {
             std::cout << "Quit" << std::endl;
             break;
@@ -162,7 +162,7 @@ bool nts::Loop::run(int argc, char **argv)
         else
         {
             launchCommand(command);
-            std::cout << "> " << std::endl;
+            std::cout << "> ";
         }
     }
     return true;
