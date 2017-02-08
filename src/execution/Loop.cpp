@@ -51,6 +51,7 @@ void nts::Loop::createCommand()
 void nts::Loop::Exit()
 {
     isLoop = false;
+    std::cout << "Quit" << std::endl;
 }
 
 void nts::Loop::Display()
@@ -103,7 +104,9 @@ void nts::Loop::setPin(std::string &name, int pin)
     {
         if (static_cast<AComponent *>(*it)->getName() == name)
         {
-            if (!static_cast<AComponent *>(*it)->setPin(static_cast<AComponent *>(*it)[0][1], static_cast<nts::Tristate>(pin)))
+            if (pin < -1 || pin > 1)
+                std::cout << "Error: Pin value isn't valid" << std::endl;
+            else if (!static_cast<AComponent *>(*it)->setPin(1, static_cast<nts::Tristate>(pin)))
                 std::cout << "Error: Pin isn't valid" << std::endl;
             break;
         }
@@ -162,7 +165,8 @@ bool nts::Loop::run(int argc, char **argv)
         else
         {
             launchCommand(command);
-            std::cout << "> ";
+            if (isLoop)
+                std::cout << "> ";
         }
     }
     return true;
