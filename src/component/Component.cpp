@@ -204,12 +204,13 @@ nts::Tristate nts::AComponent::ComputeRequiredPins(size_t pin_num_this) {
         else
         {
           link = std::find(Inputs.begin(), Inputs.end(), *req);
-          cmp = static_cast<AComponent *>(link->component);
-          if ((*cmp)[link->it] == UNDEFINED)
-          {
-            Pins[*req] = cmp->Compute(link->it);
-          } else {
-            Pins[*req] = (*cmp)[link->it];
+          if (link != Inputs.end()) {
+            cmp = static_cast<AComponent *>(link->component);
+            if ((*cmp)[link->it] == UNDEFINED) {
+              Pins[*req] = cmp->Compute(link->it);
+            } else {
+              Pins[*req] = (*cmp)[link->it];
+            }
           }
         }
       }

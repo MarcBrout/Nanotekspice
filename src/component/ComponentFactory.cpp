@@ -2,8 +2,6 @@
 // Created by brout_m on 28/01/17.
 //
 
-#include <ComponentTrue.hh>
-#include <ComponentFalse.hh>
 #include "ComponentFactory.hh"
 #include "Component4001.hh"
 #include "Component4008.hh"
@@ -19,6 +17,8 @@
 #include "ComponentInput.hh"
 #include "ComponentOutput.hh"
 #include "ComponentClock.hh"
+#include "ComponentTrue.hh"
+#include "ComponentFalse.hh"
 
 nts::IComponent *nts::ComponentFactory::createComponent(std::string const &type, std::string const &value)
 {
