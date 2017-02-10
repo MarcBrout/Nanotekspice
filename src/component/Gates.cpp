@@ -110,3 +110,9 @@ nts::Tristate nts::Gates::inverter(nts::Tristate in1) {
         return (in1);
     return (in1 == TRUE ? FALSE : TRUE);
 }
+
+nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2, nts::Tristate in3, nts::Tristate in4) {
+    if (in1 == UNDEFINED || in2 == UNDEFINED || in3 == UNDEFINED || in4 == UNDEFINED)
+        return UNDEFINED;
+    return ((in1 == TRUE && in2 == TRUE && in3 == TRUE && in4 == TRUE ? TRUE : FALSE));
+}

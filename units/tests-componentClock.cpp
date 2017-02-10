@@ -4,13 +4,10 @@
 
 #include <cassert>
 #include <iostream>
-#include "ComponentFactory.hh"
 #include "ComponentClock.hh"
 
 int main() {
-    nts::ComponentFactory   factory;
-    nts::IComponent         *iCmpClock = factory.createComponent("clock", "TestingComponentClock");
-    nts::AComponent         &aCmpClock = static_cast<nts::AComponent &>(*iCmpClock);
+    nts::ComponentClock aCmpClock("TestingClock");
 
     std::cout << "Testing initial state of all pins";
 

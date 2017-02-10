@@ -4,13 +4,10 @@
 
 #include <cassert>
 #include <iostream>
-#include "ComponentFactory.hh"
 #include "Component4069.hh"
 
 int main() {
-    nts::ComponentFactory   factory;
-    nts::IComponent         *iCmp4069 = factory.createComponent("4069", "TestingComponent4069");
-    nts::AComponent         &aCmp4069 = static_cast<nts::AComponent &>(*iCmp4069);
+    nts::Component4069 aCmp4069("TestingComponent4069");
 
     std::cout << "Testing initial state of all pins";
 
