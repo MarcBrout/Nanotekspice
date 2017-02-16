@@ -10,6 +10,7 @@
 namespace nts {
 
     class Component4017 : public AComponent {
+    public:
         enum PINS
         {
             Q5 = 1,
@@ -27,6 +28,7 @@ namespace nts {
             CP0 = 14,
             MR = 15
         };
+
     public:
         ~Component4017() {};
         Component4017(std::string const& name);

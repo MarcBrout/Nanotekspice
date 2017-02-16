@@ -5,13 +5,14 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb  8 10:39:36 2017 brout_m
-## Last update Wed Feb  8 11:23:58 2017 brout_m
+## Last update Wed Feb 15 14:24:59 2017 brout_m
 ##
 
 TEST4001=	tests-4001
 TEST4008=	tests-4008
 TEST4011=	tests-4011
 TEST4013=	tests-4013
+TEST4017=	tests-4017
 TEST4030=	tests-4030
 TEST4069=	tests-4069
 TEST4071=	tests-4071
@@ -42,6 +43,11 @@ TEST4013SRC=	$(TESTSSRC) \
 		$(COMPONENTPATH)/Component4013.cpp \
 		$(COMPONENTPATH)/ComponentClock.cpp \
 		./tests-component4013.cpp
+
+TEST4017SRC=	$(TESTSSRC) \
+		$(COMPONENTPATH)/Component4017.cpp \
+		$(COMPONENTPATH)/ComponentClock.cpp \
+		./tests-component4017.cpp
 
 TEST4030SRC=	$(TESTSSRC) \
 		$(COMPONENTPATH)/Component4030.cpp \
@@ -81,6 +87,7 @@ TEST4001OBJ=	$(TEST4001SRC:.cpp=.o)
 TEST4008OBJ=	$(TEST4008SRC:.cpp=.o)
 TEST4011OBJ=	$(TEST4011SRC:.cpp=.o)
 TEST4013OBJ=	$(TEST4013SRC:.cpp=.o)
+TEST4017OBJ=	$(TEST4017SRC:.cpp=.o)
 TEST4030OBJ=	$(TEST4030SRC:.cpp=.o)
 TEST4069OBJ=	$(TEST4069SRC:.cpp=.o)
 TEST4071OBJ=	$(TEST4071SRC:.cpp=.o)
@@ -92,11 +99,11 @@ TESTCLOCKOBJ=	$(TESTCLOCKSRC:.cpp=.o)
 
 INC=		-I../include
 
-CXX= 		g++ $(INC) -std=c++11
+CXX= 		g++ $(INC) -std=c++14
 
-CFLAGS=		-g $(INC)
+CFLAGS=		$(INC)
 
-all: $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4514) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
+all: $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4017) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4514) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
 
 $(TEST4001): $(TEST4001OBJ)
 	g++ -o $(TEST4001) $(TEST4001OBJ) $(INC)
@@ -109,6 +116,9 @@ $(TEST4011): $(TEST4011OBJ)
 
 $(TEST4013): $(TEST4013OBJ)
 	g++ -o $(TEST4013) $(TEST4013OBJ) $(INC)
+
+$(TEST4017): $(TEST4017OBJ)
+	g++ -o $(TEST4017) $(TEST4017OBJ) $(INC)
 
 $(TEST4030): $(TEST4030OBJ)
 	g++ -o $(TEST4030) $(TEST4030OBJ) $(INC)
@@ -139,6 +149,7 @@ clean:
 	rm -rf $(TEST4008OBJ)
 	rm -rf $(TEST4011OBJ)
 	rm -rf $(TEST4013OBJ)
+	rm -rf $(TEST4017OBJ)
 	rm -rf $(TEST4030OBJ)
 	rm -rf $(TEST4069OBJ)
 	rm -rf $(TEST4071OBJ)
@@ -153,6 +164,7 @@ fclean: clean
 	rm -rf $(TEST4008)
 	rm -rf $(TEST4011)
 	rm -rf $(TEST4013)
+	rm -rf $(TEST4017)
 	rm -rf $(TEST4030)
 	rm -rf $(TEST4069)
 	rm -rf $(TEST4071)

@@ -24,6 +24,8 @@ nts::Component4017::Component4017(std::string const &name) :
                     {Q8, {CP1, CP0, MR}},
                     {Q9, {CP1, CP0, MR}},
                     {Q59, {CP1, CP0, MR}},
+                    {CP0, {CP1}},
+                    {CP1, {CP0}}
                    }),
         cp0State(false),
         computedOnce(false)
@@ -33,7 +35,7 @@ nts::Component4017::Component4017(std::string const &name) :
 
 nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
 {
-    std::vector<size_t>::const_iterator it;
+    std::vector<size_t>::const_iterator it, to;
     nts::Tristate clockState;
     nts::Tristate state;
 
@@ -45,11 +47,12 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
         state = getPinLinkedInput(pin_num_this);
         if (pin_num_this == CP0 && cp0State && !computedOnce) {
             if (clockState == FALSE && state == TRUE) {
-                it = std::find_if(InPins.cbegin(), InPins.cend(), [&Pins](size_t pin){ return (Pins[pin] == TRUE); });
-                if (it != InPins.cend()) {
+                to = it = std::find_if(OutPins.cbegin(), OutPins.cend(), [this](size_t pin){ return (this->Pins[pin] == TRUE); });
+                if (it != OutPins.cend()) {
                     if (*it != Q9) {
+                        ++to;
                         Pins[*it] = FALSE;
-                        Pins[*it + 1] = TRUE;
+                        Pins[*to] = TRUE;
                         if (*it == Q4 || *it == Q6 || *it == Q7 || *it == Q8)
                             Pins[Q59] = FALSE;
                     } else {
@@ -62,11 +65,12 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
         if (pin_num_this == CP1 && !cp0State && !computedOnce) {
             Pins[CP1] = Gates::inverter(Pins[CP1]);
             if (clockState == TRUE && state == FALSE) {
-                it = std::find_if(InPins.cbegin(), InPins.cend(), [&Pins](size_t pin){ return (Pins[pin] == TRUE); });
-                if (it != InPins.cend()) {
+                to = it = std::find_if(OutPins.cbegin(), OutPins.cend(), [this](size_t pin){ return (this->Pins[pin] == TRUE); });
+                if (it != OutPins.cend()) {
                     if (*it != Q9) {
+                        ++to;
                         Pins[*it] = FALSE;
-                        Pins[*it + 1] = TRUE;
+                        Pins[*to] = TRUE;
                         if (*it == Q4 || *it == Q6 || *it == Q7 || *it == Q8)
                             Pins[Q59] = FALSE;
                     } else {
@@ -89,10 +93,10 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
 }
 
 void nts::Component4017::resetMe() {
-    std::for_each(InPins.cbegin(), InPins.cend(), [&Pins](size_t pin){ Pins[pin] = FALSE; });
+    std::for_each(OutPins.cbegin(), OutPins.cend(), [this](size_t pin){ this->Pins[pin] = FALSE; });
     Pins[Q0] = TRUE;
     Pins[Q59] = TRUE;
-    cp0State = -cp0State;
+    cp0State = !cp0State;
 }
 
 void nts::Component4017::resetComputedPins(void) {
