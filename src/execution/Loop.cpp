@@ -3,9 +3,9 @@
 //
 
 #include <csignal>
-#include <Component.hh>
 #include <fstream>
 #include "Loop.hh"
+#include "Component.hh"
 
 sig_atomic_t signaled = 0;
 

@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb  8 10:39:36 2017 brout_m
-## Last update Thu Feb 16 15:53:23 2017 brout_m
+## Last update Thu Feb 16 16:09:59 2017 brout_m
 ##
 
 NANOTEKSPICE=	nanotekspice
@@ -56,7 +56,7 @@ CXX= 		g++
 CXXFLAGS=	 -std=c++14 -W -Wall -Wextra -Werror $(INC)
 
 $(NANOTEKSPICE): $(NANOLIBRARY) $(OBJMAIN)
-	$(CXX) -o $(NANOTEKSPICE) $(OBJMAIN) $(INC) -Lnanotekspice
+	$(CXX) -o $(NANOTEKSPICE) $(OBJMAIN) $(INC) -L./ -lnanotekspice
 
 $(NANOLIBRARY): $(OBJ)
 	ar rc $(NANOLIBRARY) $(OBJ)
