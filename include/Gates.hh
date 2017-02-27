@@ -22,6 +22,7 @@ namespace nts
         static nts::Tristate add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& co);
         static nts::Tristate flipflop(nts::Tristate clock, nts::Tristate reset, nts::Tristate data, nts::Tristate set, nts::Tristate& q, nts::Tristate& nq, bool which);
         static nts::Tristate inverter(nts::Tristate in1);
+        static nts::Tristate _and(nts::Tristate in1, nts::Tristate in2, nts::Tristate in3, nts::Tristate in4);
     };
 }
 

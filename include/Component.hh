@@ -23,7 +23,9 @@ namespace nts
         COMPONENT4017,
         COMPONENT4040,
         COMPONENT4069,
+        COMPONENT4094,
         COMPONENT4514,
+        COMPONENT2716,
         COMPONENTINPUT,
         COMPONENTOUTPUT,
         COMPONENTCLOCK,
@@ -43,7 +45,9 @@ namespace nts
             "4017",
             "4040",
             "4069",
+            "4094",
             "4514",
+            "2716",
             "input",
             "output",
             "clock",
@@ -59,6 +63,7 @@ namespace nts
         size_t        me;
         IComponent    *component;
         size_t        it;
+        bool          isComputed;
         bool          operator==(size_t pin) const;
     };
 
@@ -90,6 +95,7 @@ namespace nts
         std::string const &getName(void) const;
         bool setPin(size_t pin, nts::Tristate value);
         nts::Tristate& operator[](size_t pin);
+        virtual void resetComputedPins(void);
 
     protected:
         std::string                 Name;

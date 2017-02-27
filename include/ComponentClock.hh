@@ -15,8 +15,10 @@ namespace nts
         ~ComponentClock(){};
         ComponentClock(std::string const& name);
         virtual nts::Tristate Compute(size_t pin_num_this = 1);
+        virtual void resetComputedPins(void);
 
     private:
+        bool Reset;
         ComponentClock() = delete;
         ComponentClock(ComponentClock const& cmp) = delete;
         ComponentClock &operator=(ComponentClock const& cmp) = delete;
