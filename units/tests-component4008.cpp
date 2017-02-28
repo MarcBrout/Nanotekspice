@@ -26,29 +26,41 @@ int main() {
     std::cout << "\nAll pins correctly initialized!\n";
     std::cout << "Testing internal adding gates";
 
-    aCmp4008[6] = nts::TRUE;
+    aCmp4008[6] = nts::FALSE;
     aCmp4008[7] = nts::TRUE;
     aCmp4008[9] = nts::TRUE;
-    assert(aCmp4008.Compute(10) == nts::TRUE);
-    assert(aCmp4008.Compute(14) == nts::TRUE);
+    assert(aCmp4008.Compute(10) == nts::FALSE);
+    assert(aCmp4008.Compute(11) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(12) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(13) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(14) == nts::UNDEFINED);
     std::cout << ".";
 
     aCmp4008[4] = nts::FALSE;
     aCmp4008[5] = nts::TRUE;
+    assert(aCmp4008.Compute(10) == nts::FALSE);
     assert(aCmp4008.Compute(11) == nts::FALSE);
-    assert(aCmp4008.Compute(14) == nts::TRUE);
+    assert(aCmp4008.Compute(12) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(13) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(14) == nts::UNDEFINED);
     std::cout << ".";
 
-    aCmp4008[2] = nts::TRUE;
+    aCmp4008[2] = nts::FALSE;
     aCmp4008[3] = nts::FALSE;
-    assert(aCmp4008.Compute(12) == nts::FALSE);
-    assert(aCmp4008.Compute(14) == nts::TRUE);
+    assert(aCmp4008.Compute(10) == nts::FALSE);
+    assert(aCmp4008.Compute(11) == nts::FALSE);
+    assert(aCmp4008.Compute(12) == nts::TRUE);
+    assert(aCmp4008.Compute(13) == nts::UNDEFINED);
+    assert(aCmp4008.Compute(14) == nts::UNDEFINED);
     std::cout << ".";
 
     aCmp4008[15] = nts::FALSE;
     aCmp4008[1] = nts::FALSE;
-    assert(aCmp4008.Compute(13) == nts::TRUE);
-    assert(aCmp4008.Compute(14) == nts::FALSE);
+    assert(aCmp4008.Compute(10) == nts::FALSE);
+    assert(aCmp4008.Compute(11) == nts::FALSE);
+    assert(aCmp4008.Compute(12) == nts::TRUE);
+    assert(aCmp4008.Compute(13) == nts::FALSE);
+    assert(aCmp4008.Compute(14) == nts::TRUE);
     std::cout << ".";
 
     aCmp4008[6] = nts::FALSE;

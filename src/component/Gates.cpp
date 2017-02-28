@@ -40,13 +40,13 @@ nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
     return (FALSE);
 }
 
-nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& co)
+nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate cin, nts::Tristate& cout)
 {
     nts::Tristate add;
 
     add = _xor(in1, in2);
-    co = _or(_and(add, co), _and(in1, in2));
-    return (_xor(add, co));
+    cout = _or(_and(add, cin), _and(in1, in2));
+    return (_xor(add, cin));
 }
 
 nts::Tristate nts::Gates::flipflop(nts::Tristate clock,

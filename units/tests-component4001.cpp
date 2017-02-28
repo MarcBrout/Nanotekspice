@@ -44,6 +44,18 @@ int main() {
     aCmp4001[13] = nts::FALSE;
     assert(aCmp4001.Compute(11) == nts::TRUE);
     std::cout << ".";
+
+    aCmp4001[12] = nts::UNDEFINED;
+    aCmp4001[13] = nts::FALSE;
+    assert(aCmp4001.Compute(11) == nts::UNDEFINED);
+    std::cout << ".";
+
+    aCmp4001[12] = nts::UNDEFINED;
+    aCmp4001[13] = nts::TRUE;
+    assert(aCmp4001.Compute(11) == nts::FALSE);
+    std::cout << ".";
+
+
     std::cout << "\nSuccess!\n";
 
     return (0);
