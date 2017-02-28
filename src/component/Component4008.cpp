@@ -40,9 +40,7 @@ nts::Tristate nts::Component4008::Compute(size_t pin_num_this) {
             if (pin_num_this == 14) {
                 state = Pins[14];
             } else {
-                if (pin_num_this == 10)
-                    Pins[14] = Pins[9];
-                state = Pins[pin_num_this] = Gates::add(Pins[it->required[0]], Pins[it->required[1]], Pins[14]);
+                state = Pins[pin_num_this] = Gates::add(Pins[it->required[0]], Pins[it->required[1]], Pins[pin_num_this + 1]);
             }
         } else {
             state = UNDEFINED;
