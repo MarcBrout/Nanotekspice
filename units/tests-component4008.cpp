@@ -63,31 +63,6 @@ int main() {
     assert(aCmp4008.Compute(14) == nts::TRUE);
     std::cout << ".";
 
-    aCmp4008[6] = nts::FALSE;
-    aCmp4008[7] = nts::FALSE;
-    aCmp4008[9] = nts::FALSE;
-    assert(aCmp4008.Compute(10) == nts::FALSE);
-    assert(aCmp4008.Compute(14) == nts::FALSE);
-    std::cout << ".";
-
-    aCmp4008[4] = nts::FALSE;
-    aCmp4008[5] = nts::TRUE;
-    assert(aCmp4008.Compute(11) == nts::TRUE);
-    assert(aCmp4008.Compute(14) == nts::FALSE);
-    std::cout << ".";
-
-    aCmp4008[2] = nts::TRUE;
-    aCmp4008[3] = nts::FALSE;
-    assert(aCmp4008.Compute(12) == nts::TRUE);
-    assert(aCmp4008.Compute(14) == nts::FALSE);
-    std::cout << ".";
-
-    aCmp4008[15] = nts::TRUE;
-    aCmp4008[1] = nts::TRUE;
-    assert(aCmp4008.Compute(13) == nts::FALSE);
-    assert(aCmp4008.Compute(14) == nts::TRUE);
-    std::cout << ".";
-
     std::cout << "\nAll gates working!";
     std::cout << "\nTesting Computing of last Pin";
 
