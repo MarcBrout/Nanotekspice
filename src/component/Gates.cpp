@@ -6,9 +6,11 @@
 
 nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2)
 {
+    if (in1 == FALSE || in2 == FALSE)
+        return (TRUE);
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
-    return ((!(in1 == TRUE && in2 == TRUE)) ? TRUE : FALSE);
+    return (FALSE);
 }
 
 nts::Tristate nts::Gates::nor(nts::Tristate in1, nts::Tristate in2)
@@ -22,16 +24,20 @@ nts::Tristate nts::Gates::nor(nts::Tristate in1, nts::Tristate in2)
 
 nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2)
 {
+    if (in1 == FALSE || in2 == FALSE)
+        return (FALSE);
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
-    return ((in1 == TRUE && in2 == TRUE) ? TRUE : FALSE);
+    return (TRUE);
 }
 
 nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
 {
+    if (in1 == TRUE || in2 == TRUE)
+        return (TRUE);
     if (in1 == UNDEFINED || in2 == UNDEFINED)
-        return (UNDEFINED);
-    return ((in1 == TRUE || in2 == TRUE) ? TRUE : FALSE);
+        return (UNDEFINED)
+    return (FALSE);
 }
 
 nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& co)
@@ -114,7 +120,9 @@ nts::Tristate nts::Gates::inverter(nts::Tristate in1) {
 }
 
 nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2, nts::Tristate in3, nts::Tristate in4) {
+    if (in1 == FALSE || in2 == FALSE || in3 == FALSE || in4 == FALSE)
+        return FALSE;
     if (in1 == UNDEFINED || in2 == UNDEFINED || in3 == UNDEFINED || in4 == UNDEFINED)
         return UNDEFINED;
-    return ((in1 == TRUE && in2 == TRUE && in3 == TRUE && in4 == TRUE ? TRUE : FALSE));
+    return (TRUE);
 }
