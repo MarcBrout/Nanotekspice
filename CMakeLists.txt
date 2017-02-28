@@ -19,6 +19,7 @@ set(SOURCE_FILES
 set(TESTS4001 src/component/Gates.cpp
         units/tests-component4001.cpp)
 set(TESTS4008 src/component/Gates.cpp
+        src/component/Component4008.cpp
         units/tests-component4008.cpp)
 set(TESTS4011 src/component/Gates.cpp
         units/tests-component4011.cpp)
