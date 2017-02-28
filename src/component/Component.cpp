@@ -200,22 +200,23 @@ nts::Tristate nts::AComponent::ComputeRequiredPins(size_t pin_num_this) {
     {
         for (std::vector<size_t>::iterator req = it->required.begin(); req != it->required.end(); req++)
         {
-            if (isInPinList(OutPins, *req))
+            link = std::find(Inputs.begin(), Inputs.end(), *req);
+            if (isInPinList(OutPins, *req) || link == Inputs.end())
             {
                 Pins[*req] = this->Compute(*req);
             }
-            else
+            else if (link != Inputs.end())
             {
-                link = std::find(Inputs.begin(), Inputs.end(), *req);
-                if (link != Inputs.end()) {
-                    cmp = static_cast<AComponent *>(link->component);
-                    if (!link->isComputed) {
-                        cmp->Compute(link->it);
-                        Compute(*req);
-                        link->isComputed = true;
-                    } else {
-                        Pins[*req] = (*cmp)[link->it];
-                    }
+                cmp = static_cast<AComponent *>(link->component);
+                if (!link->isComputed)
+                {
+                    cmp->Compute(link->it);
+                    Compute(*req);
+                    link->isComputed = true;
+                }
+                else
+                {
+                    Pins[*req] = (*cmp)[link->it];
                 }
             }
         }
