@@ -13,9 +13,11 @@ nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2)
 
 nts::Tristate nts::Gates::nor(nts::Tristate in1, nts::Tristate in2)
 {
+    if (in1 == TRUE || in2 == TRUE)
+        return (FALSE);
     if (in1 == UNDEFINED || in2 == UNDEFINED)
         return (UNDEFINED);
-    return ((!(in1 == TRUE || in2 == TRUE)) ? TRUE : FALSE);
+    return (TRUE);
 }
 
 nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2)
