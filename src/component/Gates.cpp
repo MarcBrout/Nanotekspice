@@ -104,9 +104,5 @@ nts::Tristate nts::Gates::inverter(nts::Tristate in1) {
 }
 
 nts::Tristate nts::Gates::_and(nts::Tristate in1, nts::Tristate in2, nts::Tristate in3, nts::Tristate in4) {
-    if (in1 == FALSE || in2 == FALSE || in3 == FALSE || in4 == FALSE)
-        return FALSE;
-    if (in1 == UNDEFINED || in2 == UNDEFINED || in3 == UNDEFINED || in4 == UNDEFINED)
-        return UNDEFINED;
-    return (TRUE);
+    return (_and(_and(in1, in2), _and(in3, in4)));
 }
