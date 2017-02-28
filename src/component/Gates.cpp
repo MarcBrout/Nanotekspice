@@ -36,7 +36,7 @@ nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
     if (in1 == TRUE || in2 == TRUE)
         return (TRUE);
     if (in1 == UNDEFINED || in2 == UNDEFINED)
-        return (UNDEFINED)
+        return (UNDEFINED);
     return (FALSE);
 }
 
