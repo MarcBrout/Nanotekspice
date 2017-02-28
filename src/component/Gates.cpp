@@ -43,26 +43,10 @@ nts::Tristate nts::Gates::_or(nts::Tristate in1, nts::Tristate in2)
 nts::Tristate nts::Gates::add(nts::Tristate in1, nts::Tristate in2, nts::Tristate& co)
 {
     nts::Tristate add;
-    nts::Tristate ret;
 
-    if (in1 == UNDEFINED || in2 == UNDEFINED)
-        return (UNDEFINED);
-
-    ret = FALSE;
-    if (in1 != in2) {
-        add = TRUE;
-    } else  {
-        if (in1 == TRUE)
-            ret = TRUE;
-        add = FALSE;
-    }
-    if (co != UNDEFINED) {
-        if (add == TRUE && co == TRUE)
-            ret = TRUE;
-        add = (add != co ? TRUE : FALSE);
-    }
-    co = ret;
-    return (add);
+    add = _xor(in1, in2);
+    co = _or(_and(add, co), _and(in1, in2));
+    return (_xor(add, co));
 }
 
 nts::Tristate nts::Gates::flipflop(nts::Tristate clock,
