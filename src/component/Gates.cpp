@@ -6,7 +6,8 @@
 
 nts::Tristate nts::Gates::nand(nts::Tristate in1, nts::Tristate in2)
 {
-    if (in1 == UNDEFINED || in2 == UNDEFINED)
+    if ((in1 == UNDEFINED && in2 != FALSE) ||
+        (in2 == UNDEFINED && in1 != FALSE))
         return (UNDEFINED);
     return ((!(in1 == TRUE && in2 == TRUE)) ? TRUE : FALSE);
 }
