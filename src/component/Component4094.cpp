@@ -54,10 +54,18 @@ nts::Tristate nts::Component4094::Compute(size_t pin_num_this)
         clockState = Pins[CP0];
         ComputeRequiredPins(pin_num_this);
         if (Pins[OUT] == FALSE) {
-            switch (pin_num_this) {
-                case QS : state = Pins[Q7]; break;
-                case NQS : state = Pins[NQS]; break;
-                default: state = UNDEFINED;
+            if (Pins[CP0] == FALSE) {
+                switch (pin_num_this) {
+                    case QS : state = Pins[QS] = Pins[Q7]; break;
+                    case NQS : state = Pins[NQS]; break;
+                    default: state = UNDEFINED;
+                }
+            } else {
+                switch (pin_num_this) {
+                    case QS : state = Pins[QS]; break;
+                    case NQS : state = Pins[NQS] = Pins[Q7]; break;
+                    default: state = UNDEFINED;
+                }
             }
         } else if (Pins[STROBE] == TRUE && clockState == FALSE && Pins[CP0] == TRUE) {
             bit = bit << 1;

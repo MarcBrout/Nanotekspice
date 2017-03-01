@@ -33,6 +33,7 @@ namespace nts
         ~Component4094(){};
         Component4094(std::string const& name);
         virtual nts::Tristate Compute(size_t pin_num_this = 1);
+        virtual void resetComputedPins(void);
 
     private:
         uint8_t bit;
@@ -41,7 +42,6 @@ namespace nts
         Component4094() = delete;
         Component4094(Component4094 const& cmp) = delete;
         Component4094 &operator=(Component4094 const& cmp) = delete;
-        virtual void resetComputedPins(void);
     };
 }
 

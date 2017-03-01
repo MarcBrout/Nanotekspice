@@ -39,8 +39,11 @@ set(TESTS4071 src/component/Gates.cpp
 set(TESTS4081 src/component/Gates.cpp
         units/tests-component4081.cpp)
 set(TESTS4094 units/tests-component4094.cpp
-        units/tests-componentClock.cpp
-        src/component/Component4094.cpp)
+        src/component/ComponentInput.cpp
+        src/component/ComponentClock.cpp
+        src/component/Component4094.cpp
+        include/Component.hh
+        src/component/Gates.cpp)
 set(TESTS4514 src/component/Gates.cpp
         src/component/Component4514.cpp
         src/component/ComponentInput.cpp
