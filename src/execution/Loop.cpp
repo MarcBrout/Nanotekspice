@@ -68,6 +68,11 @@ void nts::Loop::Simulate()
     {
         static_cast<AComponent *>(*it)->Compute();
     }
+    for (std::vector<IComponent *>::const_iterator it = pars.getOutputVec().begin(); it != pars.getOutputVec().end() ; ++it)
+    {
+        static_cast<AComponent *>(*it)->resetComputedPins();
+    }
+
 }
 
 void    my_handler(int sig)
@@ -81,10 +86,7 @@ void nts::Loop::LoopSimulate()
     signal(SIGINT, my_handler);
     while (!signaled)
     {
-        for (std::vector<IComponent *>::const_iterator it = pars.getOutputVec().begin(); it != pars.getOutputVec().end() ; ++it)
-        {
-            static_cast<AComponent *>(*it)->Compute();
-        }
+        Simulate();
     }
     signaled = 0;
 }

@@ -21,7 +21,6 @@ nts::ComponentOutput::ComponentOutput(std::string const &name) :
 nts::Tristate nts::ComponentOutput::Compute(size_t pin_num_this) {
     if (!isPinOk(pin_num_this))
         throw std::logic_error(Name + " doesn't have a '" + std::to_string(pin_num_this) + "' pin");
-    if (Pins[1] == UNDEFINED)
-        Pins[1] = getPinLinkedInput(1);
+    Pins[1] = getPinLinkedInput(1);
     return (Pins[1]);
 }
