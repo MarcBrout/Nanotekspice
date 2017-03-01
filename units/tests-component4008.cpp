@@ -54,8 +54,8 @@ int main() {
     assert(aCmp4008.Compute(14) == nts::UNDEFINED);
     std::cout << ".";
 
-    aCmp4008[15] = nts::FALSE;
-    aCmp4008[1] = nts::FALSE;
+    aCmp4008[15] = nts::TRUE;
+    aCmp4008[1] = nts::TRUE;
     assert(aCmp4008.Compute(10) == nts::FALSE);
     assert(aCmp4008.Compute(11) == nts::FALSE);
     assert(aCmp4008.Compute(12) == nts::TRUE);
