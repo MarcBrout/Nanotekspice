@@ -78,10 +78,14 @@ nts::Tristate nts::Component4094::Compute(size_t pin_num_this)
             Pins[Q6] = (bit & 0x20) ? TRUE : FALSE;
             Pins[Q7] = (bit & 0x40) ? TRUE : FALSE;
             Pins[Q8] = (bit & 0x80) ? TRUE : FALSE;
+            Pins[QS] = Pins[Q7];
             state = Pins[pin_num_this];
         } else {
+            if (Pins[STROBE] == TRUE && clockState == TRUE && Pins[CP0] == FALSE)
+                Pins[NQS] = Pins[Q7];
             state = Pins[pin_num_this];
         }
+
     }
     return (state);
 }

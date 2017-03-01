@@ -68,6 +68,7 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::UNDEFINED);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::UNDEFINED);
     assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -79,8 +80,9 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -92,8 +94,9 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -106,7 +109,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -121,7 +125,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -134,7 +139,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS) == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -147,7 +153,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS) == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -160,7 +167,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS) == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -175,7 +183,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -188,11 +197,12 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
-    std::cout << "Output Disabled Tests" << std::endl;
+    std::cout << "\nOutput Disabled Tests";
 
     out[1] = nts::FALSE;
 
@@ -205,7 +215,8 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::UNDEFINED);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::UNDEFINED);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
 
@@ -219,6 +230,7 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::UNDEFINED);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
 
     resetComponents(components);
     out[1] = nts::TRUE;
@@ -233,8 +245,65 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
-
     std::cout << ".";
+
+    resetComponents(components);
+
+    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
+
+    resetComponents(components);
+
+    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
+
+    resetComponents(components);
+
+    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
+    std::cout << ".";
+
+    resetComponents(components);
+
+    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::TRUE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::TRUE);
+    std::cout << ".";
+
+    resetComponents(components);
     std::cout << "\nSuccess!\n";
     return (0);
 }
