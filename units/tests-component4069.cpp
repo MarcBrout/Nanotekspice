@@ -29,25 +29,60 @@ int main() {
 
     aCmp4069[1] = nts::TRUE;
     assert(aCmp4069.Compute(2) == nts::FALSE);
+    assert(aCmp4069.Compute(4) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(6) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(8) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(12) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4069[3] = nts::FALSE;
+    assert(aCmp4069.Compute(2) == nts::FALSE);
     assert(aCmp4069.Compute(4) == nts::TRUE);
+    assert(aCmp4069.Compute(6) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(8) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(12) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4069[5] = nts::TRUE;
+    assert(aCmp4069.Compute(2) == nts::FALSE);
+    assert(aCmp4069.Compute(4) == nts::TRUE);
     assert(aCmp4069.Compute(6) == nts::FALSE);
+    assert(aCmp4069.Compute(8) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(12) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4069[9] = nts::FALSE;
+    assert(aCmp4069.Compute(2) == nts::FALSE);
+    assert(aCmp4069.Compute(4) == nts::TRUE);
+    assert(aCmp4069.Compute(6) == nts::FALSE);
     assert(aCmp4069.Compute(8) == nts::TRUE);
+    assert(aCmp4069.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4069.Compute(12) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4069[11] = nts::FALSE;
+    assert(aCmp4069.Compute(2) == nts::FALSE);
+    assert(aCmp4069.Compute(4) == nts::TRUE);
+    assert(aCmp4069.Compute(6) == nts::FALSE);
+    assert(aCmp4069.Compute(8) == nts::TRUE);
     assert(aCmp4069.Compute(10) == nts::TRUE);
+    assert(aCmp4069.Compute(12) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4069[13] = nts::FALSE;
+    assert(aCmp4069.Compute(2) == nts::FALSE);
+    assert(aCmp4069.Compute(4) == nts::TRUE);
+    assert(aCmp4069.Compute(6) == nts::FALSE);
+    assert(aCmp4069.Compute(8) == nts::TRUE);
+    assert(aCmp4069.Compute(10) == nts::TRUE);
     assert(aCmp4069.Compute(12) == nts::TRUE);
 
     std::cout << ".";

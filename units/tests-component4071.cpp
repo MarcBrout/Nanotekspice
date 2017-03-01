@@ -28,20 +28,35 @@ int main() {
     aCmp4071[1] = nts::TRUE;
     aCmp4071[2] = nts::TRUE;
     assert(aCmp4071.Compute(3) == nts::TRUE);
+    assert(aCmp4071.Compute(4) == nts::UNDEFINED);
+    assert(aCmp4071.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4071.Compute(11) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4071[5] = nts::FALSE;
     aCmp4071[6] = nts::TRUE;
+    assert(aCmp4071.Compute(3) == nts::TRUE);
     assert(aCmp4071.Compute(4) == nts::TRUE);
+    assert(aCmp4071.Compute(10) == nts::UNDEFINED);
+    assert(aCmp4071.Compute(11) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4071[8] = nts::TRUE;
     aCmp4071[9] = nts::FALSE;
+    assert(aCmp4071.Compute(3) == nts::TRUE);
+    assert(aCmp4071.Compute(4) == nts::TRUE);
     assert(aCmp4071.Compute(10) == nts::TRUE);
+    assert(aCmp4071.Compute(11) == nts::UNDEFINED);
+
     std::cout << ".";
 
     aCmp4071[12] = nts::FALSE;
     aCmp4071[13] = nts::FALSE;
+    assert(aCmp4071.Compute(3) == nts::TRUE);
+    assert(aCmp4071.Compute(4) == nts::TRUE);
+    assert(aCmp4071.Compute(10) == nts::TRUE);
     assert(aCmp4071.Compute(11) == nts::FALSE);
     std::cout << ".";
     std::cout << "\nSuccess!\n";
