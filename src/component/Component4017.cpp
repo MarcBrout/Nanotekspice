@@ -80,7 +80,7 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
                 }
             }
         }
-        if (pin_num_this == MR)
+        if (pin_num_this == MR && Pins[MR] == TRUE)
         {
             resetMe();
             computedOnce = true;
