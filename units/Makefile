@@ -69,6 +69,7 @@ TEST4081SRC=	$(TESTSSRC) \
 TEST4094SRC=	$(TESTSSRC) \
         $(COMPONENTPATH)/Component4094.cpp \
 		$(COMPONENTPATH)/ComponentClock.cpp \
+		$(COMPONENTPATH)/ComponentInput.cpp \
         ./tests-component4094.cpp
 
 TEST4514SRC=	$(TESTSSRC) \
