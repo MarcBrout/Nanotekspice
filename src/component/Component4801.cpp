@@ -21,13 +21,9 @@ nts::Component4801::Component4801(std::string const& name) :
                     {DQ5, {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, WE, OE, CE}},
                     {DQ6, {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, WE, OE, CE}},
                     {DQ7, {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, WE, OE, CE}}
-                   })
+                   }),
+        ram(1024, 0)
 {
-    fs.open(Name, std::fstream::out | std::fstream::in);
-    if (!fs.is_open())
-        throw std::runtime_error("Can't open file : " + Name);
-    if (fs.gcount() < 1024)
-        throw std::runtime_error("File: " + Name + " is truncated");
 }
 
 nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
@@ -60,8 +56,6 @@ nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
             y += Pins[A7] == TRUE ? 0x0100000 : 0x0;
             y += Pins[A9] == TRUE ? 0x1000000 : 0x0;
 
-            fs.seekp(x + y * 128);
-
             if (Pins[WE] == TRUE) {
                 Compute(DQ0);
                 Compute(DQ1);
@@ -81,22 +75,22 @@ nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
                 c += Pins[DQ6] == TRUE ? 0x01000000 : 0x0;
                 c += Pins[DQ7] == TRUE ? 0x10000000 : 0x0;
 
-                fs.write(&c, 1);
+                ram[x + y * 128] = c;
 
                 state = Pins[pin_num_this];
             } else if (Pins[OE] == TRUE) {
-                char    r[1];
+                char    r;
 
-                fs.read(r, 1);
+                r = ram[x + y * 128];
 
-                Pins[DQ0] = r[1] & 0x00000001 ? TRUE : FALSE;
-                Pins[DQ1] = r[1] & 0x00000010 ? TRUE : FALSE;
-                Pins[DQ2] = r[1] & 0x00000100 ? TRUE : FALSE;
-                Pins[DQ3] = r[1] & 0x00001000 ? TRUE : FALSE;
-                Pins[DQ4] = r[1] & 0x00010000 ? TRUE : FALSE;
-                Pins[DQ5] = r[1] & 0x00100000 ? TRUE : FALSE;
-                Pins[DQ6] = r[1] & 0x01000000 ? TRUE : FALSE;
-                Pins[DQ7] = r[1] & 0x10000000 ? TRUE : FALSE;
+                Pins[DQ0] = r & 0x00000001 ? TRUE : FALSE;
+                Pins[DQ1] = r & 0x00000010 ? TRUE : FALSE;
+                Pins[DQ2] = r & 0x00000100 ? TRUE : FALSE;
+                Pins[DQ3] = r & 0x00001000 ? TRUE : FALSE;
+                Pins[DQ4] = r & 0x00010000 ? TRUE : FALSE;
+                Pins[DQ5] = r & 0x00100000 ? TRUE : FALSE;
+                Pins[DQ6] = r & 0x01000000 ? TRUE : FALSE;
+                Pins[DQ7] = r & 0x10000000 ? TRUE : FALSE;
 
                 state = Pins[pin_num_this];
             } else {
@@ -110,5 +104,4 @@ nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
 }
 
 nts::Component4801::~Component4801() {
-    fs.close();
 }

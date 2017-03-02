@@ -47,7 +47,7 @@ namespace nts
         Component4801() = delete;
         Component4801(Component4801 const& cmp) = delete;
         Component4801 &operator=(Component4801 const& cmp) = delete;
-        std::fstream fs;
+        std::vector<char> ram;
     };
 }
 

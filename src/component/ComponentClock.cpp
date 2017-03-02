@@ -16,6 +16,7 @@ nts::ComponentClock::ComponentClock(std::string const &name) :
                    {}),
         Reset(false)
 {
+    Pins[1] = FALSE;
 }
 
 nts::Tristate nts::ComponentClock::Compute(size_t pin_num_this) {
