@@ -423,3 +423,16 @@ const std::vector<nts::IComponent *> &nts::Parser::getFactory() const
 {
     return factory;
 }
+
+static bool sortFunction(const nts::IComponent * a, const nts::IComponent * b)
+{
+    std::string const &first = static_cast<nts::AComponent const *>(a)->getName();
+    std::string const &second = static_cast<nts::AComponent const *>(b)->getName();
+
+    return first.compare(second) > 0;
+}
+
+void nts::Parser::sortComponent()
+{
+    std::sort(outputVec.begin(), outputVec.end(), sortFunction);
+}

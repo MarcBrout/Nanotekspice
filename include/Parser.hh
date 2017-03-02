@@ -68,6 +68,8 @@ namespace nts
 
         virtual ~Parser();
 
+        void sortComponent();
+
         void feed(std::string const &input);
 
         void parseTree(nts::t_ast_node &root);
