@@ -28,6 +28,7 @@ namespace nts
         nts::IComponent* create4503(std::string const& value);
         nts::IComponent* create4512(std::string const& value);
         nts::IComponent* create4514(std::string const& value);
+        nts::IComponent* create4801(std::string const& value);
         nts::IComponent* createInput(std::string const& value);
         nts::IComponent* createOutput(std::string const& value);
         nts::IComponent *createClock(std::string const& value);

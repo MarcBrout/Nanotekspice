@@ -53,6 +53,9 @@ set(TESTS4514 src/component/Gates.cpp
         src/component/Component4514.cpp
         src/component/ComponentInput.cpp
         units/tests-component4514.cpp)
+set(TESTS4801 src/component/Gates.cpp
+        src/component/Component4801.cpp
+        )
 set(TESTSINPUT src/component/Gates.cpp
         units/tests-componentInput.cpp)
 set(TESTSOUTPUT src/component/Gates.cpp
@@ -75,6 +78,7 @@ add_executable(test-component4081 src/component/Component.cpp ${TESTS4081})
 add_executable(test-component4094 src/component/Component.cpp ${TESTS4094})
 add_executable(test-component4512 src/component/Component.cpp ${TESTS4512})
 add_executable(test-component4514 src/component/Component.cpp ${TESTS4514})
+add_executable(test-component4801 src/component/Component.cpp ${TESTS4801})
 add_executable(test-componentInput src/component/Component.cpp ${TESTSINPUT})
 add_executable(test-componentOutput src/component/Component.cpp ${TESTSOUTPUT})
 add_executable(test-componentClock src/component/Component.cpp ${TESTSCLOCK})

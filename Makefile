@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb  8 10:39:36 2017 brout_m
-## Last update Thu Feb 16 16:09:59 2017 brout_m
+## Last update Thu Mar  2 02:01:43 2017 brout_m
 ##
 
 NANOTEKSPICE=	nanotekspice
@@ -30,7 +30,10 @@ SRC=		$(COMPONENTPATH)/Component2716.cpp \
 		$(COMPONENTPATH)/Component4071.cpp \
 		$(COMPONENTPATH)/Component4081.cpp \
 		$(COMPONENTPATH)/Component4094.cpp \
+		$(COMPONENTPATH)/Component4512.cpp \
+		$(COMPONENTPATH)/Component4503.cpp \
 		$(COMPONENTPATH)/Component4514.cpp \
+		$(COMPONENTPATH)/Component4801.cpp \
 		$(COMPONENTPATH)/ComponentFactory.cpp \
 		$(COMPONENTPATH)/ComponentClock.cpp \
 		$(COMPONENTPATH)/ComponentFalse.cpp \
