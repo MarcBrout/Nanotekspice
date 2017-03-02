@@ -43,9 +43,9 @@ nts::Tristate nts::Component4514::Compute(size_t pin_num_this)
         throw std::logic_error(Name + " doesn't have a '" + std::to_string(pin_num_this) + "' pin");
 
     if (isInPinList(InPins, pin_num_this)) {
-        strobeState = Pins[1];
         state = getPinLinkedInput(pin_num_this);
-        if (pin_num_this == 1 && strobeState == TRUE && state == FALSE)
+        strobeState = Pins[1];
+        if (pin_num_this == 1 && strobeState == TRUE && state == TRUE)
         {
             latches[A] = Pins[2] = getPinLinkedInput(2);
             latches[B] = Pins[3] = getPinLinkedInput(3);
@@ -54,7 +54,7 @@ nts::Tristate nts::Component4514::Compute(size_t pin_num_this)
         }
     } else {
         ComputeRequiredPins(pin_num_this);
-        if ((Pins[23] = getPinLinkedInput(23)) == TRUE)
+        if (Pins[23] == TRUE)
         {
             state = FALSE;
         }
