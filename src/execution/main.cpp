@@ -8,15 +8,15 @@
 
 int main(int argc, char **argv)
 {
-    nts::Loop loop;
-    try
+  nts::Loop loop;
+  try
     {
-        if (!loop.run(argc, argv))
-            return 1;
+      if (!loop.run(argc, argv))
+	return 1;
     }
-    catch (std::exception& e)
+  catch (std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+      std::cout << e.what() << std::endl;
     }
-    return 0;
+  return 0;
 }
