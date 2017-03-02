@@ -27,7 +27,7 @@ nts::Component4017::Component4017(std::string const &name) :
                     {CP0, {CP1}},
                     {CP1, {CP0}}
                    }),
-        cp0State(false),
+        cp0State(true),
         computedOnce(false)
 {
     resetMe();
