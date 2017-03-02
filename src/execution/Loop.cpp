@@ -69,7 +69,7 @@ void nts::Loop::Simulate()
     {
         static_cast<AComponent *>(*it)->Compute();
     }
-    for (std::vector<IComponent *>::const_iterator it = pars.getOutputVec().begin(); it != pars.getOutputVec().end() ; ++it)
+    for (std::vector<IComponent *>::const_iterator it = pars.getFactory().begin(); it != pars.getFactory().end() ; ++it)
     {
         static_cast<AComponent *>(*it)->resetComputedPins();
     }

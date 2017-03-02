@@ -42,9 +42,12 @@ namespace nts
         ~Component4514(){};
         Component4514(std::string const& name);
         virtual nts::Tristate Compute(size_t pin_num_this = 1);
+        virtual void resetComputedPins(void);
+
 
     private:
         std::vector<nts::Tristate> latches;
+        bool isComputed;
         Component4514() = delete;
         Component4514(Component4514 const& cmp) = delete;
         Component4514 &operator=(Component4514 const& cmp) = delete;
