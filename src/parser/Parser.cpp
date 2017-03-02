@@ -86,7 +86,7 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     outputVec.push_back(first);
                     first = nullptr;
                 }
-                else if (root.children[0][i]->lexeme == "input")
+                else if (root.children[0][i]->lexeme == "input" || root.children[0][i]->lexeme == "clock")
                 {
                     first = factory.back();
                     inputVec.push_back(first);
