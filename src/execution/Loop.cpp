@@ -52,7 +52,6 @@ void nts::Loop::createCommand()
 void nts::Loop::Exit()
 {
     isLoop = false;
-    std::cout << "Quit" << std::endl;
 }
 
 void nts::Loop::Display()
