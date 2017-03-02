@@ -18,6 +18,8 @@ set(SOURCE_FILES
 
 set(TESTS4001 src/component/Gates.cpp
         units/tests-component4001.cpp)
+set(TESTS4503 src/component/Gates.cpp
+        units/tests-component4503.cpp)
 set(TESTS4008 src/component/Gates.cpp
         src/component/Component4008.cpp
         units/tests-component4008.cpp)
@@ -44,6 +46,9 @@ set(TESTS4094 units/tests-component4094.cpp
         src/component/Component4094.cpp
         include/Component.hh
         src/component/Gates.cpp)
+set(TESTS4512 src/component/Gates.cpp
+        src/component/Component4512.cpp
+        units/tests-component4512.cpp)
 set(TESTS4514 src/component/Gates.cpp
         src/component/Component4514.cpp
         src/component/ComponentInput.cpp
@@ -58,6 +63,7 @@ set(TESTSCLOCK src/component/Gates.cpp
 
 add_executable(cpp_nanotekspice ${SOURCE_FILES})
 add_executable(test-component4001 src/component/Component.cpp ${TESTS4001})
+add_executable(test-component4503 src/component/Component.cpp ${TESTS4503})
 add_executable(test-component4008 src/component/Component.cpp ${TESTS4008})
 add_executable(test-component4011 src/component/Component.cpp ${TESTS4011})
 add_executable(test-component4013 src/component/Component.cpp ${TESTS4013})
@@ -67,6 +73,7 @@ add_executable(test-component4069 src/component/Component.cpp ${TESTS4069})
 add_executable(test-component4071 src/component/Component.cpp ${TESTS4071})
 add_executable(test-component4081 src/component/Component.cpp ${TESTS4081})
 add_executable(test-component4094 src/component/Component.cpp ${TESTS4094})
+add_executable(test-component4512 src/component/Component.cpp ${TESTS4512})
 add_executable(test-component4514 src/component/Component.cpp ${TESTS4514})
 add_executable(test-componentInput src/component/Component.cpp ${TESTSINPUT})
 add_executable(test-componentOutput src/component/Component.cpp ${TESTSOUTPUT})
