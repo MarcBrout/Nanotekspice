@@ -30,6 +30,7 @@ void nts::Loop::launchPars(std::string const& file)
     {
         while (std::getline(ifs, str, '\n').good())
             pars.feed(str);
+        pars.feed(str);
         pars.createTree();
         pars.parseTree(pars.getRoot());
     }

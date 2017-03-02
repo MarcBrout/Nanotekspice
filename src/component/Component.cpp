@@ -44,8 +44,9 @@ std::ostream& operator<<(std::ostream &out, nts::Tristate state)
 
 void nts::AComponent::Dump(void) const
 {
-    std::cout << "Component : " << Type << " " << Name << "\n"
-              << "ComponentInput pins :\n";
+    std::cout << "******************************************\n";
+    std::cout << "Component : " << ComponentTypeString[Type] << " " << Name << "\n"
+              << "Component Input pins :\n";
 
     if (!InPins.size())
         std::cout << "No input pin\n";
@@ -54,13 +55,13 @@ void nts::AComponent::Dump(void) const
         for (size_t i = 0; i < InPins.size(); ++i) {
             std::cout << "Pin '" << InPins[i] << "' = " << Pins[InPins[i]] << "\n";
         }
-        std::cout << "\nComponentInput links: \n";
+        std::cout << "\nComponent Input links: \n";
         for (size_t i = 0; i < Inputs.size(); ++i)
         {
             std::cout << "Pin '" << Inputs[i].me << "' is linked to "
                       << ComponentTypeString[static_cast<AComponent *>(Inputs[i].component)->Type] << " "
                       << static_cast<AComponent *>(Inputs[i].component)->Name
-                      << "'s pin '" << Inputs[i].it << "\n";
+                      << "'s pin '" << Inputs[i].it << "'\n";
         }
     }
 
@@ -79,9 +80,10 @@ void nts::AComponent::Dump(void) const
             std::cout << "Pin '" << Outputs[i].me << "' is linked to "
                       << ComponentTypeString[static_cast<AComponent *>(Outputs[i].component)->Type] << " "
                       << static_cast<AComponent *>(Outputs[i].component)->Name
-                      << "'s pin '" << Outputs[i].it << "\n";
+                      << "'s pin '" << Outputs[i].it << "'\n";
         }
     }
+    std::cout << "******************************************\n";
 }
 
 void nts::AComponent::SetLink(size_t pin_num_this, nts::IComponent &_component, size_t pin_num_target)
