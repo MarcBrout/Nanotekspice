@@ -76,10 +76,6 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                 {
                     throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
                 }
-                /*if (std::find(nameCompo.begin(), nameCompo.end(), root.children[0][i]->value) != nameCompo.end() ||
-                         std::find(componentNameVec.begin(), componentNameVec.end(), root.children[0][i]->value) != componentNameVec.end())
-                {
-                }*/
 
                 componentVec.push_back(root.children[0][i]->value);
                 factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
