@@ -162,7 +162,6 @@ bool nts::Loop::run(int argc, char **argv)
         std::getline(std::cin, command);
         if (std::cin.eof())
         {
-            std::cout << "Quit" << std::endl;
             break;
         }
         else
