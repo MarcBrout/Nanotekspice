@@ -6,6 +6,7 @@
 #define CPP_NANOTEKSPICE_LOOP_HH
 
 #include "Parser.hh"
+#include "Component.hh"
 
 namespace nts
 {

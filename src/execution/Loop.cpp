@@ -4,6 +4,7 @@
 
 #include <csignal>
 #include <fstream>
+#include <algorithm>
 #include "Loop.hh"
 #include "Component.hh"
 
@@ -52,7 +53,6 @@ void nts::Loop::createCommand()
 void nts::Loop::Exit()
 {
     isLoop = false;
-    std::cout << "Quit" << std::endl;
 }
 
 void nts::Loop::Display()
@@ -155,6 +155,7 @@ bool nts::Loop::run(int argc, char **argv)
         i++;
     }
     launchCommand("simulate");
+    pars.sortComponent();
     launchCommand("display");
     std::cout << "> ";
     while (isLoop)
