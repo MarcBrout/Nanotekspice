@@ -96,7 +96,7 @@ void nts::Component4017::resetMe() {
     std::for_each(OutPins.cbegin(), OutPins.cend(), [this](size_t pin){ this->Pins[pin] = FALSE; });
     Pins[Q0] = TRUE;
     Pins[Q59] = TRUE;
-    cp0State = !cp0State;
+    //cp0State = !cp0State;
 }
 
 void nts::Component4017::resetComputedPins(void) {
