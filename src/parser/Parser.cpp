@@ -78,8 +78,14 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                 }
 
                 componentVec.push_back(root.children[0][i]->value);
-                factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                if (root.children[0][i]->lexeme == "2716")
+                {
+                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value.substr(0, root.children[0][i]->value.find('('))));
+                    factory.back().feedRom(root.children[0][i]->value.substr(root.children[0][i]->value.find('('), root.children[0][i]->value.find(')')));
+                }
 
+                else
+                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
                 if (root.children[0][i]->lexeme == "output")
                 {
                     first = factory.back();
@@ -180,7 +186,11 @@ void nts::Parser::createNode(std::string it)
     std::map<std::string, nts::FuncPtr> myLexMap;
     std::map<std::string, nts::FuncPtr>::iterator itm;
     std::string c;
+    size_t pos;
 
+    if ((pos = (it.find_first_not_of(' '))) == std::string::npos)
+        pos = 0;
+    it = it.substr(pos);
     if (myLexMap.empty())
         myLexMap = create_map();
     if (it.find_last_of('#') != 0)
