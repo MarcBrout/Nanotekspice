@@ -57,9 +57,16 @@ void nts::Loop::Exit()
 
 void nts::Loop::Display()
 {
+    int i;
+
     for (std::vector<IComponent *>::const_iterator it = pars.getOutputVec().begin(); it != pars.getOutputVec().end() ; ++it)
     {
-        std::cout << static_cast<AComponent *>(*it)->getName() << "=" << static_cast<int>(static_cast<AComponent *>(*it)[0][1]) << std::endl;
+        std::cout << static_cast<AComponent *>(*it)->getName() << "=";
+        i = static_cast<int>(static_cast<AComponent *>(*it)[0][1]);
+        if (i >= 0)
+            std::cout << i << std::endl;
+        else
+            std::cout << "U" << std::endl;
     }
 }
 
