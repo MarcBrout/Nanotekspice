@@ -104,7 +104,7 @@ void nts::AComponent::SetLink(size_t pin_num_this, nts::IComponent &_component, 
                                "'s input pin '" + std::to_string(pin_num_this) +
                                "' to " + component.getName() + "'s input pin '" +
                                std::to_string(pin_num_target) +"'");
-    if (!inputPinThis && !inputPinIt)
+    if (!inputPinThis && !inputPinIt && !static_cast<AComponent&>(_component).getType() == nts::COMPONENT4801)
         throw std::logic_error("Can't link " + ComponentTypeString[Type] + " " + Name +
                                "'s output pin '" + std::to_string(pin_num_this) +
                                "' to " + ComponentTypeString[component.getType()] + " " +
@@ -113,20 +113,26 @@ void nts::AComponent::SetLink(size_t pin_num_this, nts::IComponent &_component, 
     if (isPinAlreadyConnected(Inputs, pin_num_this))
         throw std::logic_error(ComponentTypeString[Type] + " " + Name +
                                "'s input pin already has a connexion");
-    if (isPinAlreadyConnected(component.Inputs, pin_num_target))
+    if (isPinAlreadyConnected(component.Inputs, pin_num_target) && !!static_cast<AComponent&>(_component).getType() == nts::COMPONENT4801)
         throw std::logic_error("Target " + ComponentTypeString[component.getType()] + " " +
                                component.getName() +
                                "'s input pin already has a connexion");
 
     if (inputPinThis)
         addLink(Inputs, pin_num_this, &_component, pin_num_target);
-    else
+    else {
+        if (static_cast<AComponent&>(_component).getType() == nts::COMPONENT4801)
+            addLink(Inputs, pin_num_this, &_component, pin_num_target);
         addLink(Outputs, pin_num_this, &_component, pin_num_target);
+    }
 
     if (inputPinIt)
         addLink(component.Inputs, pin_num_target, this, pin_num_this);
-    else
+    else {
+        if (static_cast<AComponent&>(_component).getType() == nts::COMPONENT4801)
+            addLink(component.Inputs, pin_num_target, this, pin_num_this);
         addLink(component.Outputs, pin_num_target, this, pin_num_this);
+    }
 }
 
 bool nts::AComponent::isPinOk(size_t pin) const

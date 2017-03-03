@@ -15,6 +15,7 @@ make
 ./tests-4503
 ./tests-4512
 ./tests-4514
+./tests-4801
 ./tests-Clock
 ./tests-Input
 ./tests-Output
