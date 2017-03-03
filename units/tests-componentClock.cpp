@@ -11,7 +11,7 @@ int main() {
 
     std::cout << "Testing initial state of all pins";
 
-    assert(aCmpClock.Compute(1) == nts::UNDEFINED);
+    assert(aCmpClock.Compute(1) == nts::FALSE);
     std::cout << ".";
 
     std::cout << "\nAll pins correctly initialized!\n";

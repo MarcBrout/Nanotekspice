@@ -33,7 +33,7 @@ int main() {
 
     assert(aCmp4514.Compute(nts::Component4514::S0) == nts::UNDEFINED);
 
-    aCmpInput[1] = nts::FALSE;
+    aCmpInput[1] = nts::TRUE;
     aCmpInput.SetLink(1, aCmp4514, 1);
     aCmp4514.resetComputedPins();
 

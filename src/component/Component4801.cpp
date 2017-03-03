@@ -44,53 +44,60 @@ nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
         x = y = 0x0;
         c = 0;
         if (Pins[CE] == TRUE) {
-            x += Pins[A1] == TRUE ? 0x001 : 0x0;
-            x += Pins[A6] == TRUE ? 0x010 : 0x0;
-            x += Pins[A8] == TRUE ? 0x100 : 0x0;
+            y += Pins[A1] == TRUE ? 1 : 0;
+            y += Pins[A6] == TRUE ? 2 : 0;
+            y += Pins[A8] == TRUE ? 4 : 0;
 
-            y += Pins[A0] == TRUE ? 0x0000001 : 0x0;
-            y += Pins[A2] == TRUE ? 0x0000010 : 0x0;
-            y += Pins[A3] == TRUE ? 0x0000100 : 0x0;
-            y += Pins[A4] == TRUE ? 0x0001000 : 0x0;
-            y += Pins[A5] == TRUE ? 0x0010000 : 0x0;
-            y += Pins[A7] == TRUE ? 0x0100000 : 0x0;
-            y += Pins[A9] == TRUE ? 0x1000000 : 0x0;
+            x += Pins[A0] == TRUE ? 1 : 0;
+            x += Pins[A2] == TRUE ? 2 : 0;
+            x += Pins[A3] == TRUE ? 4 : 0;
+            x += Pins[A4] == TRUE ? 8 : 0;
+            x += Pins[A5] == TRUE ? 16 : 0;
+            x += Pins[A7] == TRUE ? 32 : 0;
+            x += Pins[A9] == TRUE ? 64 : 0;
 
             if (Pins[WE] == TRUE) {
-                Compute(DQ0);
-                Compute(DQ1);
-                Compute(DQ2);
-                Compute(DQ3);
-                Compute(DQ4);
-                Compute(DQ5);
-                Compute(DQ6);
-                Compute(DQ7);
+                getPinLinkedInput(DQ0);
+                getPinLinkedInput(DQ1);
+                getPinLinkedInput(DQ2);
+                getPinLinkedInput(DQ3);
+                getPinLinkedInput(DQ4);
+                getPinLinkedInput(DQ5);
+                getPinLinkedInput(DQ6);
+                getPinLinkedInput(DQ7);
 
-                c += Pins[DQ0] == TRUE ? 0x00000001 : 0x0;
-                c += Pins[DQ1] == TRUE ? 0x00000010 : 0x0;
-                c += Pins[DQ2] == TRUE ? 0x00000100 : 0x0;
-                c += Pins[DQ3] == TRUE ? 0x00001000 : 0x0;
-                c += Pins[DQ4] == TRUE ? 0x00010000 : 0x0;
-                c += Pins[DQ5] == TRUE ? 0x00100000 : 0x0;
-                c += Pins[DQ6] == TRUE ? 0x01000000 : 0x0;
-                c += Pins[DQ7] == TRUE ? 0x10000000 : 0x0;
+                c += Pins[DQ0] == TRUE ? 1 : 0;
+                c += Pins[DQ1] == TRUE ? 2 : 0;
+                c += Pins[DQ2] == TRUE ? 4 : 0;
+                c += Pins[DQ3] == TRUE ? 8 : 0;
+                c += Pins[DQ4] == TRUE ? 16 : 0;
+                c += Pins[DQ5] == TRUE ? 32 : 0;
+                c += Pins[DQ6] == TRUE ? 64 : 0;
+                c += Pins[DQ7] == TRUE ? 128 : 0;
 
-                ram[x + y * 128] = c;
+                ram[y + x * 128] = c;
 
                 state = Pins[pin_num_this];
             } else if (Pins[OE] == TRUE) {
                 char    r;
 
-                r = ram[x + y * 128];
+                r = ram[y + x * 128];
 
                 Pins[DQ0] = r & 0x00000001 ? TRUE : FALSE;
-                Pins[DQ1] = r & 0x00000010 ? TRUE : FALSE;
-                Pins[DQ2] = r & 0x00000100 ? TRUE : FALSE;
-                Pins[DQ3] = r & 0x00001000 ? TRUE : FALSE;
-                Pins[DQ4] = r & 0x00010000 ? TRUE : FALSE;
-                Pins[DQ5] = r & 0x00100000 ? TRUE : FALSE;
-                Pins[DQ6] = r & 0x01000000 ? TRUE : FALSE;
-                Pins[DQ7] = r & 0x10000000 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ1] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ2] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ3] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ4] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ5] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ6] = r & 0x00000001 ? TRUE : FALSE;
+                r >>= 1;
+                Pins[DQ7] = r & 0x00000001 ? TRUE : FALSE;
 
                 state = Pins[pin_num_this];
             } else {

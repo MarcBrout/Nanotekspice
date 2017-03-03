@@ -37,6 +37,7 @@ set(TESTS4030 src/component/Gates.cpp
 set(TESTS4069 src/component/Gates.cpp
         units/tests-component4069.cpp)
 set(TESTS4071 src/component/Gates.cpp
+        src/component/Component4071.cpp
         units/tests-component4071.cpp)
 set(TESTS4081 src/component/Gates.cpp
         units/tests-component4081.cpp)
@@ -46,6 +47,12 @@ set(TESTS4094 units/tests-component4094.cpp
         src/component/Component4094.cpp
         include/Component.hh
         src/component/Gates.cpp)
+set(TESTS4801 units/tests-component4801.cpp
+        src/component/ComponentInput.cpp
+        src/component/ComponentClock.cpp
+        src/component/Component4801.cpp
+        include/Component.hh
+        src/component/Gates.cpp)
 set(TESTS4512 src/component/Gates.cpp
         src/component/Component4512.cpp
         units/tests-component4512.cpp)
@@ -53,9 +60,6 @@ set(TESTS4514 src/component/Gates.cpp
         src/component/Component4514.cpp
         src/component/ComponentInput.cpp
         units/tests-component4514.cpp)
-set(TESTS4801 src/component/Gates.cpp
-        src/component/Component4801.cpp
-        )
 set(TESTSINPUT src/component/Gates.cpp
         units/tests-componentInput.cpp)
 set(TESTSOUTPUT src/component/Gates.cpp

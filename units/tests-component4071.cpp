@@ -59,7 +59,23 @@ int main() {
     assert(aCmp4071.Compute(10) == nts::TRUE);
     assert(aCmp4071.Compute(11) == nts::FALSE);
     std::cout << ".";
-    std::cout << "\nSuccess!\n";
+
+    std::cout << "\nReseting state of all pins" << std::endl;
+
+    for (size_t i = 1; i <= 13; ++i) {
+        aCmp4071[i] = nts::UNDEFINED;
+    }
+
+    aCmp4071.SetLink(3, aCmp4071, 2);
+    aCmp4071[1] = nts::FALSE;
+
+    assert(aCmp4071.Compute(3) == nts::UNDEFINED);
+
+    aCmp4071[1] = nts::TRUE;
+
+    assert(aCmp4071.Compute(3) == nts::TRUE);
+
+    std::cout << "Success!\n";
 
     return (0);
 }
