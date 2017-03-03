@@ -37,6 +37,7 @@ set(TESTS4030 src/component/Gates.cpp
 set(TESTS4069 src/component/Gates.cpp
         units/tests-component4069.cpp)
 set(TESTS4071 src/component/Gates.cpp
+        src/component/Component4071.cpp
         units/tests-component4071.cpp)
 set(TESTS4081 src/component/Gates.cpp
         units/tests-component4081.cpp)

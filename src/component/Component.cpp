@@ -164,8 +164,8 @@ nts::Tristate nts::AComponent::getPinLinkedInput(size_t pin)
     if (it != Inputs.end()) {
         cmp = static_cast<AComponent *>(it->component);
         if (!it->isComputed) {
-            Pins[pin] = cmp->Compute(it->it);
             it->isComputed = true;
+            Pins[pin] = cmp->Compute(it->it);
         }
         else
             Pins[pin] = (*cmp)[it->it];
@@ -212,14 +212,16 @@ nts::Tristate nts::AComponent::ComputeRequiredPins(size_t pin_num_this) {
                 cmp = static_cast<AComponent *>(link->component);
                 if (!link->isComputed)
                 {
+                    link->isComputed = true;
                     cmp->Compute(link->it);
                     Compute(*req);
-                    link->isComputed = true;
                 }
                 else
                 {
                     Pins[*req] = (*cmp)[link->it];
                 }
+            } else {
+                return (Pins[*req]);
             }
         }
         return (TRUE);
