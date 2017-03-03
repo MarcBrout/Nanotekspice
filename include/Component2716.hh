@@ -41,11 +41,13 @@ namespace nts
         ~Component2716(){};
         Component2716(std::string const& name);
         virtual nts::Tristate Compute(size_t pin_num_this = 1);
+        bool feedRom(std::string const& filename);
 
     private:
         Component2716() = delete;
         Component2716(Component2716 const& cmp) = delete;
         Component2716 &operator=(Component2716 const& cmp) = delete;
+        std::string rom;
     };
 }
 

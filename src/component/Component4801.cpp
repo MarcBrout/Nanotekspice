@@ -44,17 +44,17 @@ nts::Tristate nts::Component4801::Compute(size_t pin_num_this)
         x = y = 0x0;
         c = 0;
         if (Pins[CE] == TRUE) {
-            x += Pins[A1] == TRUE ? 0x001 : 0x0;
-            x += Pins[A6] == TRUE ? 0x010 : 0x0;
-            x += Pins[A8] == TRUE ? 0x100 : 0x0;
+            y += Pins[A1] == TRUE ? 0x001 : 0x0;
+            y += Pins[A6] == TRUE ? 0x010 : 0x0;
+            y += Pins[A8] == TRUE ? 0x100 : 0x0;
 
-            y += Pins[A0] == TRUE ? 0x0000001 : 0x0;
-            y += Pins[A2] == TRUE ? 0x0000010 : 0x0;
-            y += Pins[A3] == TRUE ? 0x0000100 : 0x0;
-            y += Pins[A4] == TRUE ? 0x0001000 : 0x0;
-            y += Pins[A5] == TRUE ? 0x0010000 : 0x0;
-            y += Pins[A7] == TRUE ? 0x0100000 : 0x0;
-            y += Pins[A9] == TRUE ? 0x1000000 : 0x0;
+            x += Pins[A0] == TRUE ? 0x0000001 : 0x0;
+            x += Pins[A2] == TRUE ? 0x0000010 : 0x0;
+            x += Pins[A3] == TRUE ? 0x0000100 : 0x0;
+            x += Pins[A4] == TRUE ? 0x0001000 : 0x0;
+            x += Pins[A5] == TRUE ? 0x0010000 : 0x0;
+            x += Pins[A7] == TRUE ? 0x0100000 : 0x0;
+            x += Pins[A9] == TRUE ? 0x1000000 : 0x0;
 
             if (Pins[WE] == TRUE) {
                 Compute(DQ0);

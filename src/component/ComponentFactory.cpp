@@ -18,6 +18,7 @@
 #include "Component4514.hh"
 #include "Component4503.hh"
 #include "Component4801.hh"
+#include "Component2716.hh"
 #include "ComponentInput.hh"
 #include "ComponentOutput.hh"
 #include "ComponentClock.hh"
@@ -43,6 +44,7 @@ std::map<const std::string, nts::ComponentFactory::createCompPtr> nts::Component
 {
     std::map<const std::string, nts::ComponentFactory::createCompPtr> map;
 
+    map["2716"] = &nts::BluePrint::create2716;
     map["4001"] = &nts::BluePrint::create4001;
     map["4008"] = &nts::BluePrint::create4008;
     map["4011"] = &nts::BluePrint::create4011;
@@ -145,4 +147,8 @@ nts::IComponent *nts::BluePrint::createFalse(std::string const &value) {
 
 nts::IComponent *nts::BluePrint::createTrue(std::string const &value) {
     return (new ComponentTrue(value));
+}
+
+nts::IComponent *nts::BluePrint::create2716(std::string const &value) {
+    return (new Component2716(value));
 }
