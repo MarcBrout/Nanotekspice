@@ -283,6 +283,12 @@ nts::AComponent::~AComponent() {
     }
 }
 
+nts::Link const *nts::AComponent::operator()(size_t pin) const {
+    if (pin < Outputs.size())
+        return (&Outputs[pin]);
+    return (nullptr);
+}
+
 bool nts::s_link::operator==(size_t pin) const
 {
     return (me == pin);

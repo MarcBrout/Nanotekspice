@@ -75,8 +75,8 @@ namespace nts
 
     struct s_output
     {
-       size_t              me;
-       std::vector<size_t> required;
+        size_t              me;
+        std::vector<size_t> required;
         bool          operator==(size_t pin) const;
     };
 
@@ -101,9 +101,9 @@ namespace nts
         std::string const &getName(void) const;
         bool setPin(size_t pin, nts::Tristate value);
         nts::Tristate& operator[](size_t pin);
+        const Link * operator()(size_t pin) const;
         virtual void resetComputedPins(void);
         void destroyLink(size_t me, nts::IComponent *cmp, size_t it);
-
 
     protected:
         std::string                 Name;
