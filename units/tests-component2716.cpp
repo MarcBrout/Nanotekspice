@@ -128,8 +128,7 @@ int main() {
     a8.SetLink(1, aCmp2716, nts::Component2716::A8);
     a9.SetLink(1, aCmp2716, nts::Component2716::A9);
     a10.SetLink(1, aCmp2716, nts::Component2716::A10);
-
-
+    
     assert(aCmp2716.Compute(nts::Component2716::Q0) == nts::TRUE);
     assert(aCmp2716.Compute(nts::Component2716::Q1) == nts::FALSE);
     assert(aCmp2716.Compute(nts::Component2716::Q2) == nts::FALSE);
