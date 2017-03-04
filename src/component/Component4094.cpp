@@ -27,6 +27,7 @@ nts::Component4094::Component4094(std::string const& name) :
         bit(0),
         computed(false)
 {
+    std::for_each(OutPins.begin(), OutPins.end(), [this](size_t pin) { this->Pins[pin] = FALSE; });
 }
 
 nts::Tristate nts::Component4094::Compute(size_t pin_num_this)

@@ -32,16 +32,16 @@ int main() {
 
     std::cout << "Testing initial state of all Pins";
 
-    assert(aCmp4094[nts::Component4094::Q1] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q2] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q3] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q4] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q5] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q6] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q7] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::Q8] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::QS] == nts::UNDEFINED);
-    assert(aCmp4094[nts::Component4094::NQS] == nts::UNDEFINED);
+    assert(aCmp4094[nts::Component4094::Q1] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q2] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q3] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q4] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q5] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q6] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q7] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::Q8] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::QS] == nts::FALSE);
+    assert(aCmp4094[nts::Component4094::NQS] == nts::FALSE);
 
     std::cout << "\nAll pins correctly initialized!\n";
     std::cout << "Testing 8-BIT Shift Register";
@@ -58,16 +58,16 @@ int main() {
     input.SetLink(1, aCmp4094, nts::Component4094::DATA);
     strobe.SetLink(1, aCmp4094, nts::Component4094::STROBE);
 
-    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::UNDEFINED);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::Q1) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q2) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q3) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q4) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q5) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q6) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
     std::cout << ".";
 
     resetComponents(components);
@@ -81,7 +81,7 @@ int main() {
     assert(aCmp4094.Compute(nts::Component4094::Q7) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::Q8) == nts::FALSE);
     assert(aCmp4094.Compute(nts::Component4094::QS) == nts::FALSE);
-    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::UNDEFINED);
+    assert(aCmp4094.Compute(nts::Component4094::NQS)  == nts::FALSE);
     std::cout << ".";
 
     resetComponents(components);
