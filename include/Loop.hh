@@ -39,11 +39,11 @@ namespace nts
         void create(std::string &comps);
         void setLink(std::string &links);
         void save(std::string &file);
+        void destroyComponent(std::string &destr);
+        void destroyLink(std::string &destr);
 
         void launchPars(std::string const& file);
-
         void setPin(std::string &name, int pin);
-
         void launchCommand(std::string const& command);
     public:
         Loop();

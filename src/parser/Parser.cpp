@@ -451,14 +451,14 @@ void nts::Parser::sortComponent()
     std::sort(outputVec.begin(), outputVec.end(), sortFunction);
 }
 
-std::vector<IComponent *> &nts::Parser::getFactoryChange() const
+std::vector<nts::IComponent *> &nts::Parser::getFactoryChange()
 {
     return factory;
 }
 
 nts::IComponent *nts::Parser::getComponent(std::string const &name) const
 {
-    for (std::vector<IComponent *>::const_iterator it = factory.begin(); it != factory.end(); ++it)
+    for (std::vector<nts::IComponent *>::const_iterator it = factory.begin(); it != factory.end(); ++it)
     {
         if (static_cast<AComponent *>(*it)->getName() == name)
             return *it;
