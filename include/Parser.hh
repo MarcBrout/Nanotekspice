@@ -82,6 +82,10 @@ namespace nts
 
         const std::vector<IComponent *> &getFactory() const;
 
+        std::vector<IComponent *> &getFactoryChange() const;
+
+        IComponent *getComponent(std::string const& name) const;
+
         nts::t_ast_node *createTree();
     };
 }

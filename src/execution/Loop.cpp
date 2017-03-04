@@ -5,6 +5,10 @@
 #include <csignal>
 #include <fstream>
 #include <algorithm>
+#include <ComponentFactory.hh>
+#include <Component2716.hh>
+#include <cstring>
+#include <sstream>
 #include "Loop.hh"
 #include "Component.hh"
 
@@ -15,6 +19,7 @@ nts::Loop::Loop()
     isLoop = true;
     signaled = 0;
     createCommand();
+    createBonus();
 }
 
 nts::Loop::~Loop()
@@ -50,6 +55,13 @@ void nts::Loop::createCommand()
     commands["simulate"] = &nts::Loop::Simulate;
     commands["loop"] = &nts::Loop::LoopSimulate;
     commands["dump"] = &nts::Loop::Dump;
+}
+
+void nts::Loop::createBonus()
+{
+    bonus["create"] = &nts::Loop::create;
+    bonus["setLink"] = &nts::Loop::setLink;
+    bonus["save"] = &nts::Loop::save;
 }
 
 void nts::Loop::Exit()
@@ -133,9 +145,20 @@ void nts::Loop::launchCommand(std::string const &command)
 {
     std::string comp;
     std::string pin;
+    std::string comm;
 
     if (commands.find(command) != commands.end())
         (this->*commands[command])();
+    else if (bonus.find(command.substr(0, command.find(' '))) != bonus.end())
+    {
+        if (command.find(' ') != std::string::npos)
+        {
+            comm = command.substr(command.find(' ') + 1);
+            (this->*bonus[command.substr(0, command.find(' '))])(comm);
+        }
+        else
+            std::cout << "Invalid parameter" << std::endl;
+    }
     else if (command.find('=') != std::string::npos && std::isdigit(command[command.find('=') + 1]))
     {
         comp = command.substr(0, command.find('='));
@@ -182,4 +205,87 @@ bool nts::Loop::run(int argc, char **argv)
         }
     }
     return true;
+}
+
+void nts::Loop::create(std::string &comps)
+{
+    std::string TypeComp;
+    std::string NameComp;
+    ComponentFactory fact;
+
+    TypeComp = comps.substr(0, comps.find(' '));
+    NameComp = comps.substr(comps.find(' ') + 1);
+    if (NameComp.length() == 0)
+    {
+        std::cout << "No name component set" << std::endl;
+        return;
+    }
+    if (std::find(nts::ComponentTypeString.begin(), nts::ComponentTypeString.end(), TypeComp) == nts::ComponentTypeString.end())
+        std::cout << "Unknown component" << std::endl;
+    else
+    {
+        if (TypeComp == "2716")
+        {
+            if (NameComp.find('(') == std::string::npos || NameComp.find(')') == std::string::npos)
+                std::cout << "Name incorrect: \"" + NameComp + "\" is not a valid name 2716 component" << std::endl;
+            pars.getFactoryChange().push_back(fact.createComponent(TypeComp, NameComp.substr(0, NameComp.find(')'))));
+            if (NameComp.substr(NameComp.find('('), NameComp.find(')')).length() > 2)
+                static_cast<Component2716 *>(pars.getFactory().back())->feedRom(NameComp.substr(NameComp.find('('), NameComp.find(')')));
+            else
+                static_cast<Component2716 *>(pars.getFactory().back())->feedRom("");
+        }
+        else
+            pars.getFactoryChange().push_back(fact.createComponent(TypeComp, NameComp));
+    }
+}
+
+template<typename Out>
+void split(const std::string &s, char delim, Out result)
+{
+    std::stringstream ss;
+    ss.str(s);
+    std::string item;
+    while (std::getline(ss, item, delim))
+    {
+        *(result++) = item;
+    }
+}
+
+void nts::Loop::setLink(std::string &links)
+{
+    std::vector<std::string> link;
+    split(links, ' ', std::back_inserter(link));
+    if (link.size() != 4 || pars.getComponent(link[0]) == nullptr || pars.getComponent(link[2]) == nullptr ||
+        !isdigit(std::atoi(link[1].c_str())) || !isdigit(std::atoi(link[3].c_str())))
+            std::cout << "Error: setLink nameCompoOne pin nameCompoTwo pin" << std::endl;
+    else
+        pars.getComponent(link[0])->SetLink(static_cast<size_t >(std::atoi(link[1].c_str())),
+        *(pars.getComponent(link[2])), static_cast<size_t >(std::atoi(link[3].c_str())));
+}
+
+void nts::Loop::save(std::string &file)
+{
+    std::ofstream ofs;
+    const nts::Link *link;
+    int i;
+
+    ofs.open(file);
+    if (ofs.is_open())
+    {
+        ofs << "# File created in the loop\n#Name of the file: ";
+        ofs << file << "\n.chipsets:\n";
+        for (std::vector<IComponent *>::const_iterator it = pars.getFactory().begin(); it != pars.getFactory().end(); ++it)
+        {
+            ofs << nts::ComponentTypeString[static_cast<AComponent *>(*it)->getType()] << "\t\t" << static_cast<AComponent *>(*it)->getName() << "\n";
+        }
+        ofs << "\n.links:\n";
+        for (std::vector<IComponent *>::const_iterator it = pars.getFactory().begin(); it != pars.getFactory().end(); ++it)
+        {
+            i = 0;
+            while ((link = *it(i++))!= nullptr)
+            {
+                ofs << static_cast<AComponent *>(*it)->getName() << ":" << link->me << "\t\t" << static_cast<AComponent *>(link->component)->getName() << ":" << link->it << "\n";
+            }
+        }
+    }
 }
