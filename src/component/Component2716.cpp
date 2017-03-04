@@ -57,11 +57,10 @@ nts::Tristate nts::Component2716::Compute(size_t pin_num_this)
             x += Pins[A7] == TRUE ? 8 : 0;
             x += Pins[A8] == TRUE ? 16 : 0;
             x += Pins[A9] == TRUE ? 32 : 0;
-            x += Pins[A9] == TRUE ? 64 : 0;
-            x += Pins[A10] == TRUE ? 128 : 0;
+            x += Pins[A10] == TRUE ? 64 : 0;
 
-            if (y + x * 256 < rom.size())
-                c = rom[y + x * 256];
+            if (y + x * 128 < rom.size())
+                c = rom[y + x * 128];
 
             Pins[Q0] = c & 0x00000001 ? TRUE : FALSE;
             c >>= 1;
