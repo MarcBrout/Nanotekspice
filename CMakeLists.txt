@@ -14,7 +14,7 @@ set(SOURCE_FILES
         ${EXECUTION}
         ${PARSER}
         ${COMPONENTS}
-        ${INCLUDES} Bonus/main.cpp Bonus/LoopBonus.hh)
+        ${INCLUDES})
 
 set(TESTS4001 src/component/Gates.cpp
         units/tests-component4001.cpp)

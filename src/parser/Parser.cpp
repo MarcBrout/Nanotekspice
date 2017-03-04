@@ -83,7 +83,6 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value.substr(0, root.children[0][i]->value.find('('))));
                     factory.back().feedRom(root.children[0][i]->value.substr(root.children[0][i]->value.find('('), root.children[0][i]->value.find(')')));
                 }
-
                 else
                     factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
                 if (root.children[0][i]->lexeme == "output")
