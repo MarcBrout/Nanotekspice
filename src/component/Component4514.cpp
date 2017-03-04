@@ -30,7 +30,8 @@ nts::Component4514::Component4514(std::string const& name) :
                     {16, {1, 2, 3, 21, 22, 23}},
                     {15, {1, 2, 3, 21, 22, 23}}
                    }),
-        latches(4, UNDEFINED)
+        latches(4, UNDEFINED),
+        isComputed(false)
 {
 }
 

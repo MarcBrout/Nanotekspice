@@ -91,7 +91,7 @@ namespace nts
                    std::vector<size_t> const &inputs,
                    std::vector<size_t> const &outputs,
                    std::vector<nts::Output> const &required);
-        virtual ~AComponent(){};
+        virtual ~AComponent();
 
     public:
         virtual nts::Tristate Compute(size_t pin_num_this = 1) = 0;
@@ -102,6 +102,8 @@ namespace nts
         bool setPin(size_t pin, nts::Tristate value);
         nts::Tristate& operator[](size_t pin);
         virtual void resetComputedPins(void);
+        void destroyLink(size_t me, nts::IComponent *cmp, size_t it);
+
 
     protected:
         std::string                 Name;
@@ -120,6 +122,7 @@ namespace nts
         void addLink(std::vector<nts::Link> &links, size_t me, IComponent *cmp, size_t it);
         nts::Tristate getPinLinkedInput(size_t pin);
         nts::Tristate ComputeRequiredPins(size_t pin_num_this);
+        void removeLinkFrom(std::vector<nts::Link> &vec, size_t me, nts::IComponent *cmp, size_t it);
     };
 }
 

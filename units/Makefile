@@ -5,7 +5,7 @@
 ## Login   <marc.brout@epitech.eu>
 ##
 ## Started on  Wed Feb  8 10:39:36 2017 brout_m
-## Last update Wed Feb 15 14:24:59 2017 brout_m
+## Last update Sat Mar  4 16:29:27 2017 brout_m
 ##
 
 TEST2716=	tests-2716
@@ -78,7 +78,7 @@ TEST4094SRC=	$(TESTSSRC) \
 
 TEST4801SRC=	$(TESTSSRC) \
         $(COMPONENTPATH)/Component4801.cpp \
-		$(COMPONENTPATH)/ComponentInput.cpp \
+	$(COMPONENTPATH)/ComponentInput.cpp \
         ./tests-component4801.cpp
 
 TEST2716SRC=	$(TESTSSRC) \
@@ -134,11 +134,15 @@ TESTCLOCKOBJ=	$(TESTCLOCKSRC:.cpp=.o)
 
 INC=		-I../include
 
-CXX= 		g++ $(INC) -std=c++14
+ifeq ($(DEBUG), yes)
+CXXFLAGS=	 -std=c++14 -g -W -Wall -Wextra -Werror $(INC)
+else
+CXXFLAGS=	 -std=c++14 -W -Wall -Wextra -Werror $(INC)
+endif
 
-CFLAGS=		$(INC)
+CXX= 		g++
 
-all: $(TEST2716) $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4017) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4094) $(TEST4503) $(TEST4512) $(TEST4514) $(TEST4514) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
+all: $(TEST2716) $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4017) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4094) $(TEST4503) $(TEST4512) $(TEST4514) $(TEST4514) $(TEST4801) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
 
 $(TEST2716): $(TEST2716OBJ)
 	g++ -o $(TEST2716) $(TEST2716OBJ) $(INC)
