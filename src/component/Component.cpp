@@ -185,7 +185,7 @@ nts::Tristate &nts::AComponent::operator[](size_t pin)
     if (!pin || pin >= Pins.size())
         throw std::logic_error("Pin out of range");
     return Pins[pin];
-}
+    }
 
 nts::ComponentType nts::AComponent::getType(void) const
 {
@@ -240,6 +240,53 @@ void nts::AComponent::resetComputedPins(void) {
     {
         link->isComputed = false;
     }
+}
+
+void nts::AComponent::removeLinkFrom(std::vector<nts::Link> &vec, size_t me, nts::IComponent *cmp, size_t it)
+{
+    std::vector<nts::Link>::iterator toRemove = vec.end();
+
+    for (std::vector<nts::Link>::iterator in = vec.begin(); in != vec.end(); in++) {
+        if (in->component == cmp && in->me == me && in->it == it)
+        {
+            toRemove = in;
+            break;
+        }
+    }
+    if (toRemove != vec.end())
+        vec.erase(toRemove);
+}
+
+void nts::AComponent::destroyLink(size_t me, nts::IComponent *cmp, size_t it) {
+    AComponent *component = static_cast<AComponent *>(cmp);
+
+    removeLinkFrom(Inputs, me, cmp, it);
+    removeLinkFrom(Outputs, me, cmp, it);
+    removeLinkFrom(component->Inputs, it, this, me);
+    removeLinkFrom(component->Outputs, it, this, me);
+}
+
+nts::AComponent::~AComponent() {
+    AComponent *component;
+
+    for (size_t i = 0; i < Inputs.size(); ++i)
+    {
+        component = static_cast<AComponent *>(Inputs[i].component);
+        removeLinkFrom(component->Inputs, Inputs[i].it, this, Inputs[i].me);
+        removeLinkFrom(component->Outputs, Inputs[i].it, this, Inputs[i].me);
+    }
+    for (size_t i = 0; i < Outputs.size(); ++i)
+    {
+        component = static_cast<AComponent *>(Outputs[i].component);
+        removeLinkFrom(component->Inputs, Outputs[i].it, this, Outputs[i].me);
+        removeLinkFrom(component->Outputs, Outputs[i].it, this, Outputs[i].me);
+    }
+}
+
+nts::Link const *nts::AComponent::operator()(size_t pin) const {
+    if (pin < Outputs.size())
+        return (&Outputs[pin]);
+    return (nullptr);
 }
 
 bool nts::s_link::operator==(size_t pin) const
