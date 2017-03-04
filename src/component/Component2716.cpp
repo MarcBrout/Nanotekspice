@@ -91,15 +91,22 @@ bool nts::Component2716::feedRom(std::string const &filename) {
     std::fstream fs;
 
     if (filename.empty()) {
-        fs.open("rom.bin", std::fstream::in);
+        file = "rom.bin";
     } else {
-        fs.open(filename, std::fstream::in);
+        file = filename;
     }
+
+    fs.open(file, std::fstream::in);
 
     if (!fs.is_open())
         return (true);
+
     std::getline(fs, rom);
     fs.close();
     return (false);
+}
+
+const std::string &nts::Component2716::getFile() const {
+    return file;
 }
 

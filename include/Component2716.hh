@@ -44,10 +44,15 @@ namespace nts
         bool feedRom(std::string const& filename);
 
     private:
+    public:
+        const std::string &getFile() const;
+
+    private:
         Component2716() = delete;
         Component2716(Component2716 const& cmp) = delete;
         Component2716 &operator=(Component2716 const& cmp) = delete;
         std::string rom;
+        std::string file;
     };
 }
 
