@@ -2,6 +2,7 @@
 
 make
 
+./tests-2716
 ./tests-4001
 ./tests-4008
 ./tests-4011

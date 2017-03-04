@@ -8,6 +8,7 @@
 ## Last update Wed Feb 15 14:24:59 2017 brout_m
 ##
 
+TEST2716=	tests-2716
 TEST4001=	tests-4001
 TEST4008=	tests-4008
 TEST4011=	tests-4011
@@ -80,6 +81,11 @@ TEST4801SRC=	$(TESTSSRC) \
 		$(COMPONENTPATH)/ComponentInput.cpp \
         ./tests-component4801.cpp
 
+TEST2716SRC=	$(TESTSSRC) \
+        $(COMPONENTPATH)/Component2716.cpp \
+		$(COMPONENTPATH)/ComponentInput.cpp \
+        ./tests-component2716.cpp
+
 TEST4503SRC=	$(TESTSSRC) \
         $(COMPONENTPATH)/Component4503.cpp \
         ./tests-component4503.cpp
@@ -106,6 +112,7 @@ TESTCLOCKSRC=	$(TESTSSRC) \
 		$(COMPONENTPATH)/ComponentClock.cpp \
 		./tests-componentClock.cpp
 
+TEST2716OBJ=	$(TEST2716SRC:.cpp=.o)
 TEST4001OBJ=	$(TEST4001SRC:.cpp=.o)
 TEST4008OBJ=	$(TEST4008SRC:.cpp=.o)
 TEST4011OBJ=	$(TEST4011SRC:.cpp=.o)
@@ -130,7 +137,10 @@ CXX= 		g++ $(INC) -std=c++14
 
 CFLAGS=		$(INC)
 
-all: $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4017) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4094) $(TEST4503) $(TEST4512) $(TEST4514) $(TEST4514) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
+all: $(TEST2716) $(TEST4001) $(TEST4008) $(TEST4011) $(TEST4013) $(TEST4017) $(TEST4030) $(TEST4069) $(TEST4071) $(TEST4081) $(TEST4094) $(TEST4503) $(TEST4512) $(TEST4514) $(TEST4514) $(TESTINPUT) $(TESTOUTPUT) $(TESTCLOCK)
+
+$(TEST2716): $(TEST2716OBJ)
+	g++ -o $(TEST2716) $(TEST2716OBJ) $(INC)
 
 $(TEST4001): $(TEST4001OBJ)
 	g++ -o $(TEST4001) $(TEST4001OBJ) $(INC)
@@ -184,6 +194,7 @@ $(TESTCLOCK): $(TESTCLOCKOBJ)
 	g++ -o $(TESTCLOCK) $(TESTCLOCKOBJ) $(INC)
 
 clean:
+	rm -rf $(TEST2716OBJ)
 	rm -rf $(TEST4001OBJ)
 	rm -rf $(TEST4008OBJ)
 	rm -rf $(TEST4011OBJ)
@@ -203,6 +214,7 @@ clean:
 	rm -rf $(TESTCLOCKOBJ)
 
 fclean: clean
+	rm -rf $(TEST2716)
 	rm -rf $(TEST4001)
 	rm -rf $(TEST4008)
 	rm -rf $(TEST4011)
