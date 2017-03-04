@@ -37,13 +37,12 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     bool is_chips(false);
     bool is_links(false);
     bool beginLink(false);
-    std::array<std::string, 6> nameCompo = {
+    std::array<std::string, 5> nameCompo = {
             "input",
             "output",
             "clock",
             "true",
-            "false",
-            "terminal"
+            "false"
     };
     std::string tmp;
     std::vector<std::string> componentVec;
@@ -81,7 +80,8 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
 
                 if (root.children[0][i]->lexeme == "2716")
                 {
-                    if (root.children[0][i]->value.find('('))
+                    if (root.children[0][i]->value.find('(') == std::string::npos || root.children[0][i]->value.find(')') == std::string::npos)
+                        throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
                     componentVec.push_back(root.children[0][i]->value.substr(0, root.children[0][i]->value.find('(')));
                     factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value.substr(0, root.children[0][i]->value.find('('))));
                     if (root.children[0][i]->value.substr(root.children[0][i]->value.find('('), root.children[0][i]->value.find(')')).length() > 2)
@@ -449,4 +449,19 @@ static bool sortFunction(const nts::IComponent * a, const nts::IComponent * b)
 void nts::Parser::sortComponent()
 {
     std::sort(outputVec.begin(), outputVec.end(), sortFunction);
+}
+
+std::vector<IComponent *> &nts::Parser::getFactoryChange() const
+{
+    return factory;
+}
+
+nts::IComponent *nts::Parser::getComponent(std::string const &name) const
+{
+    for (std::vector<IComponent *>::const_iterator it = factory.begin(); it != factory.end(); ++it)
+    {
+        if (static_cast<AComponent *>(*it)->getName() == name)
+            return *it;
+    }
+    return nullptr;
 }

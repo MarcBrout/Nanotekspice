@@ -13,11 +13,14 @@ namespace nts
     class Loop;
 
     typedef void (nts::Loop::*ComPtr)(void);
+    typedef void (nts::Loop::*BonPtr)(std::string &);
+
     class Loop
     {
     private:
         nts::Parser pars;
         std::map<std::string, ComPtr> commands;
+        std::map<std::string, BonPtr> bonus;
         bool isLoop;
 
         Loop(Loop const &loop) = delete;
@@ -25,12 +28,17 @@ namespace nts
         Loop &operator=(Loop const &loop) = delete;
 
         void createCommand();
+        void createBonus();
 
         void Exit();
         void Display();
         void Simulate();
         void LoopSimulate();
         void Dump();
+
+        void create(std::string &comps);
+        void setLink(std::string &links);
+        void save(std::string &file);
 
         void launchPars(std::string const& file);
 
