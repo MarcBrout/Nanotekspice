@@ -37,8 +37,10 @@ void nts::Loop::launchPars(std::string const& file)
     }
     else
     {
+        ifs.close();
         throw std::logic_error("Error: " + file + " : This file doesn't exist");
     }
+    ifs.close();
 }
 
 void nts::Loop::createCommand()

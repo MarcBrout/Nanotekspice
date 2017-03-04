@@ -4,6 +4,7 @@
 
 #include <map>
 #include <algorithm>
+#include <Component2716.hh>
 #include "Parser.hh"
 #include "ComponentFactory.hh"
 #include "Component.hh"
@@ -36,12 +37,13 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
     bool is_chips(false);
     bool is_links(false);
     bool beginLink(false);
-    std::array<std::string, 5> nameCompo = {
+    std::array<std::string, 6> nameCompo = {
             "input",
             "output",
             "clock",
             "true",
-            "false"
+            "false",
+            "terminal"
     };
     std::string tmp;
     std::vector<std::string> componentVec;
@@ -77,9 +79,21 @@ void nts::Parser::parseTree(nts::t_ast_node &root)
                     throw std::logic_error("File corrupted: \"" + tmp + "\" is not a valid type component");
                 }
 
-                componentVec.push_back(root.children[0][i]->value);
-                factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
-
+                if (root.children[0][i]->lexeme == "2716")
+                {
+                    if (root.children[0][i]->value.find('('))
+                    componentVec.push_back(root.children[0][i]->value.substr(0, root.children[0][i]->value.find('(')));
+                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value.substr(0, root.children[0][i]->value.find('('))));
+                    if (root.children[0][i]->value.substr(root.children[0][i]->value.find('('), root.children[0][i]->value.find(')')).length() > 2)
+                        static_cast<Component2716 *>(factory.back())->feedRom(root.children[0][i]->value.substr(root.children[0][i]->value.find('('), root.children[0][i]->value.find(')')));
+                    else
+                        static_cast<Component2716 *>(factory.back())->feedRom("");
+                }
+                else
+                {
+                    componentVec.push_back(root.children[0][i]->value);
+                    factory.push_back(fact.createComponent(root.children[0][i]->lexeme, root.children[0][i]->value));
+                }
                 if (root.children[0][i]->lexeme == "output")
                 {
                     first = factory.back();
@@ -180,7 +194,11 @@ void nts::Parser::createNode(std::string it)
     std::map<std::string, nts::FuncPtr> myLexMap;
     std::map<std::string, nts::FuncPtr>::iterator itm;
     std::string c;
+    size_t pos;
 
+    if ((pos = (it.find_first_not_of(' '))) == std::string::npos)
+        pos = 0;
+    it = it.substr(pos);
     if (myLexMap.empty())
         myLexMap = create_map();
     if (it.find_last_of('#') != 0)
