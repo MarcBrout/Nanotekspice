@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "Component2716.hh"
 #include "Gates.hh"
 
@@ -87,20 +88,18 @@ nts::Tristate nts::Component2716::Compute(size_t pin_num_this)
 }
 
 bool nts::Component2716::feedRom(std::string const &filename) {
-    std::ifstream ifs;
+    std::fstream fs;
 
     if (filename.empty()) {
-        ifs.open("rom.bin");
+        fs.open("rom.bin", std::fstream::in);
     } else {
-        ifs.open(filename);
+        fs.open(filename, std::fstream::in);
     }
 
-    if (!ifs.is_open() || ifs.gcount() == 0)
+    if (!fs.is_open())
         return (true);
-    rom.assign((std::istreambuf_iterator<char>(ifs)),
-               (std::istreambuf_iterator<char>()));
-
-    ifs.close();
+    std::getline(fs, rom);
+    fs.close();
     return (false);
 }
 

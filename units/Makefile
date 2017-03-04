@@ -84,6 +84,7 @@ TEST4801SRC=	$(TESTSSRC) \
 TEST2716SRC=	$(TESTSSRC) \
         $(COMPONENTPATH)/Component2716.cpp \
 		$(COMPONENTPATH)/ComponentInput.cpp \
+		$(COMPONENTPATH)/ComponentOutput.cpp \
         ./tests-component2716.cpp
 
 TEST4503SRC=	$(TESTSSRC) \

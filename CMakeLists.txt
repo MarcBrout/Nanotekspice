@@ -52,7 +52,8 @@ set(TESTS4801 units/tests-component4801.cpp
         src/component/Component4801.cpp)
 set(TESTS2716 units/tests-component2716.cpp
         src/component/ComponentInput.cpp
-        src/component/Component2716.cpp)
+        src/component/Component2716.cpp
+        src/component/ComponentOutput.cpp)
 set(TESTS4512 src/component/Gates.cpp
         src/component/Component4512.cpp
         units/tests-component4512.cpp)
