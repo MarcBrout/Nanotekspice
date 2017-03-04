@@ -30,6 +30,7 @@ nts::Component4040::Component4040(std::string const &name) :
                    }),
         computed(false)
 {
+    resetMe();
 }
 
 nts::Tristate nts::Component4040::Compute(size_t pin_num_this) {
@@ -47,7 +48,7 @@ nts::Tristate nts::Component4040::Compute(size_t pin_num_this) {
             if (Pins[RESET] == TRUE) {
                 resetMe();
                 bit = 0;
-            } else if (pin_num_this == 10 && cpoState == TRUE && state == FALSE) {
+            } else if (pin_num_this == CP0 && cpoState == TRUE && state == FALSE) {
                 if (bit == 0xFFF) {
                     resetMe();
                     bit = 0;

@@ -53,7 +53,7 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
                         ++to;
                         Pins[*it] = FALSE;
                         Pins[*to] = TRUE;
-                        if (*it == Q4 || *it == Q6 || *it == Q7 || *it == Q8)
+                        if (*it == Q4 || *it == Q5 || *it == Q6 || *it == Q7 || *it == Q8)
                             Pins[Q59] = FALSE;
                     } else {
                         resetMe();
@@ -71,7 +71,7 @@ nts::Tristate nts::Component4017::Compute(size_t pin_num_this)
                         ++to;
                         Pins[*it] = FALSE;
                         Pins[*to] = TRUE;
-                        if (*it == Q4 || *it == Q6 || *it == Q7 || *it == Q8)
+                        if (*it == Q4 || *it == Q5 || *it == Q6 || *it == Q7 || *it == Q8)
                             Pins[Q59] = FALSE;
                     } else {
                         resetMe();
